@@ -29,11 +29,11 @@ public class ProductController {
 	
 	@Autowired
 	private IApparelDataService apparelDataService;
+
 	
 	@GetMapping("/abc")
 	public String getAllProducts(){
 		return " Welcome to Screen";
 	}
-
 	
 }
