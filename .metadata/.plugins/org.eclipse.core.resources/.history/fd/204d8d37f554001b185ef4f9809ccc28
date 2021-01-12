@@ -11,7 +11,7 @@ public class ProductController {
 	
 	@GetMapping("/")
 	public String getAllProducts(){
-		return " Welcome to Screen";
+		return " Welcome to home Screen";
 	}
 
 	
