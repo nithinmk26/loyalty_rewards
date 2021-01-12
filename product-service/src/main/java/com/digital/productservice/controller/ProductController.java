@@ -18,8 +18,13 @@ public class ProductController {
 		return null;
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/2")
 	public List<Product> getAllProducts2(){
+		return null;
+	}
+	
+	@GetMapping("/3")
+	public List<Product> getAllProducts3(){
 		return null;
 	}
 }
