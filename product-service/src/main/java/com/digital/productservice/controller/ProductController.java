@@ -27,4 +27,20 @@ public class ProductController {
 	public List<Product> getAllProducts3(){
 		return null;
 	}
+
+	@GetMapping("/fromnithin1")
+	public List<Product> getAllProductsFromNithin(){
+		return null;
+	}
+	
+	@GetMapping("/fromNithin")
+	public List<Product> getAllProductsFromKoms(){
+		return null;
+	}
+	
+	@GetMapping("/fromKoms")
+	public List<Product> getAllProductsFromKoms1(){
+		return null;
+	}
+	
 }
