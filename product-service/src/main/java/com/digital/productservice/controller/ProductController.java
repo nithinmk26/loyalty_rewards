@@ -34,5 +34,11 @@ public class ProductController {
 		return null;
 	}
 	
+	@GetMapping("/form")
+	public List<Product> get(){
+		return null;
+	}
+		
+	
 		
 }
