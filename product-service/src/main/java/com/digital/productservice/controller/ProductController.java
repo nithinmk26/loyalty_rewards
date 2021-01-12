@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
 	
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String getAllProducts(){
 		return " Welcome to home Screen";
 	}

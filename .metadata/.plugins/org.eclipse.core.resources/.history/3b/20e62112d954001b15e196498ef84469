@@ -1,0 +1,9 @@
+package com.digital.productservice.service;
+
+import com.digital.productservice.dto.ApparelDataDto;
+
+public interface ApparelDataService {
+	
+	public String saveApparelData(ApparelDataDto appareldata);
+
+}
