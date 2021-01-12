@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
 	
-	@GetMapping("/")
+	@GetMapping("/abc")
 	public String getAllProducts(){
 		return " Welcome to Screen";
 	}
 
-	@GetMapping("/homePage")
+	@GetMapping("/bcd")
 	public String getHome(){
-		return " Welcome to Screen";
+		return " Welcome to BCD";
 	}
 	
 }
