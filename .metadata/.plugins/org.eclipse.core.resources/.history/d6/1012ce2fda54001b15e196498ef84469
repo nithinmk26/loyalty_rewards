@@ -1,0 +1,29 @@
+package com.digital.productservice.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.digital.productservice.entity.Product;
+import com.digital.productservice.repository.ProductServiceRepository;
+import com.digital.productservice.service.IApparelDataService;
+import com.digital.productservice.service.IBookDataService;
+import com.digital.productservice.service.IProductService;
+
+@RestController
+@RequestMapping("/product")
+public class ProductController {
+
+	
+	@GetMapping("/")
+	public List<Product> getAllProducts(){
+		return null;
+	}
+	
+	
+	
+		
+}

@@ -1,0 +1,25 @@
+package com.digital.productservice.dto;
+
+import javax.persistence.Column;
+
+public class HouseHoldDto {
+	
+	private String name;
+	
+	private String licenseNum;
+	
+	private double price;
+	
+	private int quantity;
+	
+	private String description;
+
+	private String manufactureDate;
+	
+	private String returnwithin;
+	
+	private String brand ;
+
+	private String type;
+
+}

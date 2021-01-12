@@ -1,0 +1,5 @@
+package com.digital.productservice.dto;
+
+public class ElectronicAppliancesDto {
+
+}
