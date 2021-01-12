@@ -14,5 +14,9 @@ public class ProductController {
 		return " Welcome to Screen";
 	}
 
+	@GetMapping("/homePage")
+	public String getHome(){
+		return " Welcome to home Screen";
+	}
 	
 }
