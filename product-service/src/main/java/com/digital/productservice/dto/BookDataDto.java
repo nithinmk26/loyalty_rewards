@@ -4,22 +4,10 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 
-public class BookDataDto {
-	
-	private String name;
-	
-	private String licenseNum;
-	
-	private double price;
-	
-	private int quantity;
-	
-	private String description;
+import com.digital.productservice.entity.BookData;
 
-	private String manufactureDate;
-	
-	private String returnwithin;
-	
+public class BookDataDto extends ProductDto {
+
 	private String genre ;
 	
 	private String author ;
@@ -28,27 +16,37 @@ public class BookDataDto {
 	
 	private LocalDate publishedDate;
 
-	public BookDataDto(String name, String licenseNum, double price, int quantity, String description,
-			String manufactureDate, String returnwithin, String genre, String author, String publisher,
-			LocalDate publishedDate) {
-		super();
-		this.name = name;
-		this.licenseNum = licenseNum;
-		this.price = price;
-		this.quantity = quantity;
-		this.description = description;
-		this.manufactureDate = manufactureDate;
-		this.returnwithin = returnwithin;
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+	
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
 		this.author = author;
+	}
+	
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	public LocalDate getPublishedDate() {
+		return publishedDate;
+	}
+	
+	public void setPublishedDate(LocalDate publishedDate) {
 		this.publishedDate = publishedDate;
 	}
-
-	public BookDataDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	
 }

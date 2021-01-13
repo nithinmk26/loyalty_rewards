@@ -1,9 +1,11 @@
 package com.digital.productservice.service;
 
+import java.util.List;
+
 import com.digital.productservice.dto.ApparelDataDto;
 
 public interface IApparelDataService {
 	
 	public String saveApparelData(ApparelDataDto appareldata);
-
+	
 }

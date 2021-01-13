@@ -2,44 +2,31 @@ package com.digital.productservice.dto;
 
 import javax.persistence.Column;
 
-public class HouseHoldDto {
-	
-	private String name;
-	
-	private String licenseNum;
-	
-	private double price;
-	
-	private int quantity;
-	
-	private String description;
+public class HouseHoldDto extends ProductDto {
 
-	private String manufactureDate;
-	
-	private String returnwithin;
 	
 	private String brand ;
 
 	private String type;
 
-	public HouseHoldDto(String name, String licenseNum, double price, int quantity, String description,
-			String manufactureDate, String returnwithin, String brand, String type) {
-		super();
-		this.name = name;
-		this.licenseNum = licenseNum;
-		this.price = price;
-		this.quantity = quantity;
-		this.description = description;
-		this.manufactureDate = manufactureDate;
-		this.returnwithin = returnwithin;
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public HouseHoldDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
+	
 	
 	
 

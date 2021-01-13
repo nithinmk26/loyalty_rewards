@@ -2,21 +2,8 @@ package com.digital.productservice.dto;
 
 import javax.persistence.Column;
 
-public class ElectronicAppliancesDto {
-	
-	private String name;
-	
-	private String licenseNum;
-	
-	private double price;
-	
-	private int quantity;
-	
-	private String description;
-	
-	private String manufactureDate;
-	
-	private String returnwithin;
+public class ElectronicAppliancesDto extends ProductDto{
+
 	
 	private String brand; 
 	
@@ -26,28 +13,39 @@ public class ElectronicAppliancesDto {
 
 	private String design ;
 
-	public ElectronicAppliancesDto(String name, String licenseNum, double price, int quantity, String description,
-			String manufactureDate, String returnwithin, String brand, String model, String manufacturedby,
-			String design) {
-		super();
-		this.name = name;
-		this.licenseNum = licenseNum;
-		this.price = price;
-		this.quantity = quantity;
-		this.description = description;
-		this.manufactureDate = manufactureDate;
-		this.returnwithin = returnwithin;
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
 		this.model = model;
+	}
+
+	public String getManufacturedby() {
+		return manufacturedby;
+	}
+
+	public void setManufacturedby(String manufacturedby) {
 		this.manufacturedby = manufacturedby;
+	}
+
+	public String getDesign() {
+		return design;
+	}
+
+	public void setDesign(String design) {
 		this.design = design;
 	}
 
-	public ElectronicAppliancesDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	
 	
 }

@@ -1,0 +1,17 @@
+package com.digital.productservice.dto;
+
+import javax.persistence.Column;
+
+public class ElectronicAppliancesDto {
+
+	
+	private String brand; 
+	
+	private String model; 
+
+	private String manufacturedby; 
+
+	private String design ;
+
+	
+}
