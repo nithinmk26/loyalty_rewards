@@ -19,6 +19,7 @@ import com.digital.productservice.dto.ElectronicAppliancesDto;
 import com.digital.productservice.dto.HouseHoldItemDto;
 import com.digital.productservice.dto.ProductDetailsData;
 import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.service.IApparelDataService;
 import com.digital.productservice.service.IBookDataService;
 import com.digital.productservice.service.IElectronicApplianceService;
@@ -49,7 +50,7 @@ public class ProductController {
 	private IApparelDataService apparelDataService;
 
 	@GetMapping("/books")
-	public ResponseEntity<List<BookDataDto>> getAllBookProducts(){
+	public ResponseEntity<List<BookDataDto>> getAllBookProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(bookDataService.getAllBookProducts(),HttpStatus.OK);
 	}
 	
