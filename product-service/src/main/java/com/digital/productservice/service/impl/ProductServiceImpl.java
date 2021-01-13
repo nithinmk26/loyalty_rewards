@@ -1,6 +1,5 @@
 package com.digital.productservice.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,8 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.digital.productservice.dto.ProductDto;
-import com.digital.productservice.entity.Product;
+
 import com.digital.productservice.dto.ProductDetailsData;
 import com.digital.productservice.entity.Product;
 import com.digital.productservice.exception.ProductServiceFetchingException;
@@ -20,8 +18,8 @@ import com.digital.productservice.service.IProductService;
 public class ProductServiceImpl implements IProductService {
 
 	@Autowired
-  private ProductRepository productRepository;
-	
+	private ProductRepository productRepository;
+
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
@@ -29,16 +27,6 @@ public class ProductServiceImpl implements IProductService {
 		productRepository.deleteById(id);
 		return "Successfully deleted";
 	}
-
-	@Override
-	public String updateProductByID(int id , ProductDto productDto) {
-		// TODO Auto-generated method stub
-	if(productRepository.existsById(id))
-  {
-		Product product = modelMapper.map(productDto, Product.class);
-		productRepository.saveAndFlush(product);
-	}	
-		return "updated";
 
 	@Override
 	public List<ProductDetailsData> getAllProducts() throws ProductServiceFetchingException {

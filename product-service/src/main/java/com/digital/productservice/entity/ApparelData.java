@@ -14,19 +14,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "apparel_details")
 public class ApparelData extends Product{
-	
+
 	@Column(name = "apparel_brand")
 	private String brand ;
-	
+
 	@Column(name = "apparel_type")
 	private String type;
-	
+
 	@Column(name = "apparel_size")
 	private String size ;
-	
+
 	@Column(name = "apparel_gender")
 	private String gender ;
-	
+
 	@Column(name = "apparel_colour")
 	private String colour;
 
@@ -149,11 +149,11 @@ public class ApparelData extends Product{
 		super(id, name, licenseNum, price, quantity, description, manufactureDate, returnwithin);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 
 }

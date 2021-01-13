@@ -20,30 +20,30 @@ import javax.persistence.Table;
 @Table(name = "product_details")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private int id;
-	
+
 	@Column(name = "product_name")
 	private String name;
-	
+
 	@Column(name = "product_license_num")
 	private String licenseNum;
-	
+
 	@Column(name = "product_price")
 	private double price;
-	
+
 	@Column(name = "product_quantity")
 	private int quantity;
-	
+
 	@Column(name = "product_description")
 	private String description;
-	
+
 	@Column(name = "product_mfd_date")
 	private String manufactureDate;
-	
+
 	@Column(name = "product_return_within")
 	private String returnwithin;
 	/**
@@ -100,7 +100,7 @@ public class Product {
 	public double getPrice() {
 		return price;
 	}
-	
+
 	/**
 	 * @return the manufactureDate
 	 */
@@ -143,8 +143,8 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
+
+
 	/**
 	 * @param id
 	 * @param name
@@ -167,14 +167,14 @@ public class Product {
 		this.manufactureDate = manufactureDate;
 		this.returnwithin = returnwithin;
 	}
-	
+
 	public Product() {
 		super();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

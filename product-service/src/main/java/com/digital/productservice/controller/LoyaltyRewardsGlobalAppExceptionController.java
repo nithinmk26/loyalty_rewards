@@ -21,10 +21,10 @@ import com.digital.productservice.exception.ProductServicePersistingException;
  */
 @RestControllerAdvice(assignableTypes = ProductController.class)
 public class LoyaltyRewardsGlobalAppExceptionController {
-	
+
 	private String err = "ERROR";
 	private String msg = "Message";
-	
+
 	@ExceptionHandler(ProductServicePersistingException.class)
 	public ResponseEntity<Map<String, Object>> productServicePersistingExceptionHandler(Throwable t, Exception e){
 		Map<String, Object> response = new HashMap<>();
@@ -32,7 +32,7 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@ExceptionHandler(ProductServiceFetchingException.class)
 	public ResponseEntity<Map<String, Object>> productServiceFetchingExceptionclass(Throwable t, Exception e){
 		Map<String, Object> response = new HashMap<>();
@@ -40,7 +40,7 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 	}
-	
+
 	@ExceptionHandler(LoyaltyRewardsGlobalAppException.class)
 	public ResponseEntity<Map<String, Object>> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
 		Map<String, Object> response = new HashMap<>();
@@ -48,6 +48,6 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 	}
-	
-	
+
+
 }

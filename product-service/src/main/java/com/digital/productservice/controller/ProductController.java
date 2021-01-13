@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digital.productservice.dto.ApparelDataDto;
 import com.digital.productservice.dto.BookDataDto;
 import com.digital.productservice.dto.ElectronicAppliancesDto;
-import com.digital.productservice.dto.ProductDto;
-import com.digital.productservice.entity.BookData;
-import com.digital.productservice.entity.Product;
 import com.digital.productservice.dto.HouseHoldItemDto;
 import com.digital.productservice.dto.ProductDetailsData;
 import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
-import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.service.IApparelDataService;
 import com.digital.productservice.service.IBookDataService;
 import com.digital.productservice.service.IElectronicApplianceService;
@@ -40,16 +35,16 @@ public class ProductController {
 
 	@Autowired
 	private IProductService productService;
-	
+
 	@Autowired
 	private IElectronicApplianceService electronicApplianceservice;
-	
+
 	@Autowired
 	private IHouseHoldService houseHoldService;
-	
+
 	@Autowired
 	private IBookDataService bookDataService;
-	
+
 	@Autowired
 	private IApparelDataService apparelDataService;
 
@@ -57,71 +52,58 @@ public class ProductController {
 	public ResponseEntity<List<BookDataDto>> getAllBookProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(bookDataService.getAllBookProducts(),HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/apparel")
 	public ResponseEntity<List<ApparelDataDto>> getAllApparelProducts(){
 		return new ResponseEntity<>(apparelDataService.getAllApparelProducts(),HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/electronic")
 	public ResponseEntity<List<ElectronicAppliancesDto>> getAllElectronicProducts(){
 		return new ResponseEntity<>(electronicApplianceservice.getAllElectronicProducts(),HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/household")
 	public ResponseEntity<List<HouseHoldItemDto>> getAllHouseProducts(){
 		return new ResponseEntity<>(houseHoldService.getAllHouseHoldProducts(),HttpStatus.OK);
 	}
-  
-	@PutMapping("/{id}")
-	public ResponseEntity<String> saveBookProducts(@PathVariable int id , @RequestBody ProductDto productDto)
-	{
-		return new ResponseEntity<>(productService.updateProductByID(id, productDto),HttpStatus.OK);
-	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteProductById(@PathVariable int id)
 	{
 		return new ResponseEntity<>(productService.deleteProductByID(id),HttpStatus.OK);
 	}
 
-  @PostMapping("/book")
+	@PostMapping("/book")
 	public ResponseEntity<String> saveBookProduct(@RequestBody BookDataDto bookdata) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(bookDataService.saveBookData(bookdata),HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/apparel")
 	public ResponseEntity<String> saveApparelData(@RequestBody ApparelDataDto apparelDataDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(apparelDataService.saveApparelData(apparelDataDto),HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/electronics")
 	public ResponseEntity<String> saveElectronicApplianceData(@RequestBody ElectronicAppliancesDto electronicAppliancesDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(electronicApplianceservice.saveElectronicApplianceData(electronicAppliancesDto),HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/house")
 	public ResponseEntity<String> saveHouseHoldData(@RequestBody HouseHoldItemDto houseHoldItemDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(houseHoldService.saveHouseHoldData(houseHoldItemDto),HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/all")
 	public ResponseEntity<List<ProductDetailsData>> getAllProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{productId}")
 	public ResponseEntity<ProductDetailsData> fetchProductById(@PathVariable int productId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(productService.fetchProductById(productId),HttpStatus.OK);
 	}
-	
-//	@PutMapping("/{productId}")
-//	public ResponseEntity<String> updateProductById(@PathVariable int productId, @RequestBody ProductDetailsData productDetailsToUpdate) throws LoyaltyRewardsGlobalAppException{
-//		return new ResponseEntity<>(productService.updateProductById(productId),HttpStatus.OK);
-//	}
-	
 
-	 
-	 
-	
+
+
 }

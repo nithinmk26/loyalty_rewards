@@ -14,16 +14,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "electronic_appliances_details")
 public class ElectronicAppliancesData extends Product {
-	
+
 	@Column(name = "electric_brand")
 	private String brand; 
-	
+
 	@Column(name = "electric_model")
 	private String model; 
-	
+
 	@Column(name = "electric_item_manufacturedby")
 	private String manufacturedby; 
-	
+
 	@Column(name = "electric_design")
 	private String design ;
 
@@ -130,7 +130,7 @@ public class ElectronicAppliancesData extends Product {
 		super(id, name, licenseNum, price, quantity, description, manufactureDate, returnwithin);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 
 }

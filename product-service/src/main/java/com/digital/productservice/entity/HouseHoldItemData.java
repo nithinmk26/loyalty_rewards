@@ -11,10 +11,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "house_hold_item_data")
 public class HouseHoldItemData extends Product{
-	
+
 	@Column(name = "item_brand")
 	private String brand ;
-	
+
 	@Column(name = "item_type")
 	private String type;
 
@@ -63,8 +63,8 @@ public class HouseHoldItemData extends Product{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+
+
+
 
 }

@@ -7,8 +7,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -19,16 +17,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "book_details")
 public class BookData extends Product {
-	
+
 	@Column(name = "book_genre")
 	private String genre ;
-	
+
 	@Column(name = "book_author")
 	private String author ;
-	
+
 	@Column(name = "book_publisher")
 	private String publisher;
-	
+
 	@Column(name = "book_publisherdate")
 	private LocalDate publishedDate;
 
@@ -120,7 +118,7 @@ public class BookData extends Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
+
+
 
 }
