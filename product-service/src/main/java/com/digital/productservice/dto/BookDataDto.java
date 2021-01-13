@@ -2,10 +2,6 @@ package com.digital.productservice.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-
-import com.digital.productservice.entity.BookData;
-
 public class BookDataDto extends ProductDto {
 
 	private String genre ;

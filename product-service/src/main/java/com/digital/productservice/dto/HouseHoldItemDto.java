@@ -1,8 +1,6 @@
 package com.digital.productservice.dto;
 
-import javax.persistence.Column;
-
-public class HouseHoldDto extends ProductDto {
+public class HouseHoldItemDto extends ProductDto {
 
 	
 	private String brand ;
