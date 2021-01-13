@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digital.productservice.dto.ApparelDataDto;
 import com.digital.productservice.dto.BookDataDto;
+import com.digital.productservice.dto.ElectronicAppliancesDto;
+import com.digital.productservice.dto.HouseHoldDto;
 import com.digital.productservice.dto.ProductDto;
 import com.digital.productservice.entity.BookData;
 import com.digital.productservice.entity.Product;
@@ -59,13 +61,13 @@ public class ProductController {
 	}
 	
 	@GetMapping("/electronic")
-	public ResponseEntity<List<ApparelDataDto>> getAllElectronicProducts(){
-		return new ResponseEntity<>(apparelDataService.getAllApparelProducts(),HttpStatus.OK);
+	public ResponseEntity<List<ElectronicAppliancesDto>> getAllElectronicProducts(){
+		return new ResponseEntity<>(electronicApplianceservice.getAllElectronicProducts(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/household")
-	public ResponseEntity<List<ApparelDataDto>> getAllHouseProducts(){
-		return new ResponseEntity<>(apparelDataService.getAllApparelProducts(),HttpStatus.OK);
+	public ResponseEntity<List<HouseHoldDto>> getAllHouseProducts(){
+		return new ResponseEntity<>(houseHoldService.getAllHouseHoldProducts(),HttpStatus.OK);
 	}
 	
 	@PostMapping("/book")
