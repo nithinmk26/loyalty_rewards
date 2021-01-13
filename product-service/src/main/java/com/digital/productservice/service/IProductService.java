@@ -3,10 +3,7 @@ package com.digital.productservice.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.digital.productservice.dto.ProductDto;
 import com.digital.productservice.dto.ProductDetailsData;
-import com.digital.productservice.entity.Product;
 import com.digital.productservice.exception.ProductServiceFetchingException;
 
 /**
@@ -15,8 +12,6 @@ import com.digital.productservice.exception.ProductServiceFetchingException;
  */
 @Service
 public interface IProductService {
-	
-	
 	
 	/**
 	 * @param id
@@ -28,7 +23,8 @@ public interface IProductService {
 	 * @param id
 	 * @return
 	 */
-	public String updateProductByID(int id);
+
+	public String updateProductByID(int id , ProductDto productDto);
 
 	/**
 	 * @return
@@ -37,8 +33,5 @@ public interface IProductService {
 	public List<ProductDetailsData> getAllProducts() throws ProductServiceFetchingException;
 
 	public ProductDetailsData fetchProductById(int productId) throws ProductServiceFetchingException;
-
-
 	
-
 }
