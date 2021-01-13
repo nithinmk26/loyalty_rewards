@@ -7,9 +7,9 @@ public class ApparelDataDto extends ProductDto{
 	
 	private String type;
 
-	private String size ;
+	private String size;
 	
-	private String gender ;
+	private String gender;
 
 	private String colour;
 

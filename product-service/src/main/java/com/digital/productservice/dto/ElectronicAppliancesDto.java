@@ -1,10 +1,7 @@
 package com.digital.productservice.dto;
 
-import javax.persistence.Column;
-
 public class ElectronicAppliancesDto extends ProductDto{
 
-	
 	private String brand; 
 	
 	private String model; 
@@ -45,7 +42,6 @@ public class ElectronicAppliancesDto extends ProductDto{
 		this.design = design;
 	}
 
-	
 	
 	
 }

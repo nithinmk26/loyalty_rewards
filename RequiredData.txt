@@ -1,1 +1,71 @@
 Required Documents
+
+
+1:Add Book
+{
+"author": "Komala",
+"description": "Half girlfriend",
+"genre": "rom-com",
+"licenseNum": "1423",
+"manufactureDate": "15th sep",
+"name": "book",
+"price": 350.00,
+"publishedDate": "2021-01-13",
+"publisher": "NRK details",
+"quantity": 2,
+"returnwithin": "5thsep"
+}
+
+2:Add Apparel
+{
+  "brand": "Nike",
+  "colour": "red",
+  "description": "a cottom smooth material",
+  "gender": "male",
+  "licenseNum": "abc123",
+  "manufactureDate": "01-01-20201",
+  "name": "Cotton Shirt",
+  "price": 1900,
+  "quantity": 28,
+  "returnwithin": "7 Days",
+  "size": "L",
+  "type": "TopWear Mens"
+}
+
+3:Add Electronics
+
+{
+  "brand": "string",
+  "description": "string",
+  "design": "string",
+  "licenseNum": "string",
+  "manufactureDate": "string",
+  "manufacturedby": "string",
+  "model": "string",
+  "name": "string",
+  "price": 189,
+  "quantity": 100,
+  "returnwithin": "string"
+}
+
+4:Add HouseHoldItem
+
+{
+  "brand": "string",
+  "description": "string",
+  "licenseNum": "string",
+  "manufactureDate": "string",
+  "name": "string",
+  "price": 100,
+  "quantity": 32,
+  "returnwithin": "string",
+  "type": "string"
+}
+
+
+--> To Avail Non Null Values in Fetching ALL Products
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
+
+@JsonSerialize(include = Inclusion.NON_NULL)
