@@ -1,16 +1,29 @@
 package com.digital.productservice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.digital.productservice.dto.BookDataDto;
+import com.digital.productservice.entity.BookData;
+import com.digital.productservice.entity.Product;
 import com.digital.productservice.service.IApparelDataService;
 import com.digital.productservice.service.IBookDataService;
 import com.digital.productservice.service.IElectronicApplianceService;
 import com.digital.productservice.service.IHouseHoldService;
 import com.digital.productservice.service.IProductService;
 
+/**
+ * @author 
+ *
+ */
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -30,10 +43,18 @@ public class ProductController {
 	@Autowired
 	private IApparelDataService apparelDataService;
 
-	
-	@GetMapping("/abc")
-	public String getAllProducts(){
-		return " Welcome to Screen";
+	@GetMapping("/book")
+	public ResponseEntity<List<BookDataDto>> getAllBookProducts(){
+		return new ResponseEntity<>(bookDataService.getAllBookProducts(),HttpStatus.OK);
 	}
+	
+	@PostMapping("/book")
+	public ResponseEntity<String> saveBookProducts(@RequestBody BookDataDto bookdata){
+		System.out.println("going inside");
+		return new ResponseEntity<>(bookDataService.saveBookData(bookdata),HttpStatus.CREATED);
+	}
+
+	
+	
 	
 }

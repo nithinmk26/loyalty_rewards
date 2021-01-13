@@ -1,17 +1,46 @@
 package com.digital.productservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.productservice.dto.BookDataDto;
+import com.digital.productservice.entity.BookData;
+import com.digital.productservice.repository.BookDataRepository;
 import com.digital.productservice.service.IBookDataService;
 
 @Service
 public class BookServiceImpl implements IBookDataService {
+	
+	@Autowired
+	private BookDataRepository bookDataRepository;
+	
+	private ModelMapper modelMapper = new ModelMapper();
+	
 
 	@Override
 	public String saveBookData(BookDataDto bookdata) {
-		// TODO Auto-generated method stub
-		return null;
+
+		BookData bookentitydata = modelMapper.map(bookdata, BookData.class);
+		bookDataRepository.save(bookentitydata);
+		return "Successfully saved";
+	}
+
+	@Override
+	public List<BookDataDto> getAllBookProducts() {
+		List<BookData> bookdata = bookDataRepository.findAll();
+		List<BookDataDto> bookDataDtoObj = new ArrayList<BookDataDto>();
+		for (BookData bookDataobj : bookdata) {
+		
+			BookDataDto bookDataDto = modelMapper.map(bookDataobj, BookDataDto.class);
+			bookDataDtoObj.add(bookDataDto);
+		}
+		return bookDataDtoObj;
+		
 	}
 
 }

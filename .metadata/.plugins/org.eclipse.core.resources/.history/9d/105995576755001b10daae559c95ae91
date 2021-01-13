@@ -1,0 +1,43 @@
+package com.digital.productservice.dto;
+
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+
+import com.digital.productservice.entity.BookData;
+
+public class BookDataDto extends ProductDto {
+
+	private String genre ;
+	
+	private String author ;
+	
+	private String publisher;
+	
+	private LocalDate publishedDate;
+
+	
+	public BookDataDto(String genre, String author, String publisher, LocalDate publishedDate) {
+		super();
+		this.genre = genre;
+		this.author = author;
+		this.publisher = publisher;
+		this.publishedDate = publishedDate;
+	}
+
+	public BookDataDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public BookDataDto(BookData bookData) {
+		this.productDto = new ProductDto(bookData.getName(), licenseNum, price, quantity, description, manufactureDate, returnwithin)
+		this.genre = bookData.getGenre();
+		this.author = bookData.getAuthor();
+		this.publisher = bookData.getPublisher();
+		this.publishedDate = bookData.getPublishedDate();
+		
+    }
+
+	
+}

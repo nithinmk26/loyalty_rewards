@@ -1,0 +1,48 @@
+package com.digital.productservice.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.digital.productservice.dto.BookDataDto;
+import com.digital.productservice.entity.BookData;
+import com.digital.productservice.repository.BookDataRepository;
+import com.digital.productservice.service.IBookDataService;
+
+@Service
+public class BookServiceImpl implements IBookDataService {
+	
+	@Autowired
+	private BookDataRepository bookDataRepository;
+	
+	ModelMapper modelMapper = new ModelMapper();
+
+	@Override
+	public String saveBookData(BookDataDto bookdata) {
+		ModelMapper modelMapper = new ModelMapper();
+		BookData bookentitydata = modelMapper.map(bookdata, BookData.class);
+		bookDataRepository.save(bookentitydata);
+		return "Successfully saved";
+	}
+
+	@Override
+	public List<BookDataDto> getAllBookProducts() {
+		List<BookData> bookdata = bookDataRepository.findAll();
+		ModelMapper modelMapper = new ModelMapper();
+		for (int i = 0; i < bookdata.size(); i++) {
+			
+		}
+return null;
+	}
+	
+	
+	public Object ConvertionEntityDto(Object object)
+	{
+		Object objconverted = modelMapper.map(object, Object.class);
+	}
+
+}
