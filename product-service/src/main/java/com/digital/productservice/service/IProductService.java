@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.digital.productservice.dto.ProductDto;
 import com.digital.productservice.entity.Product;
 
 /**
@@ -12,6 +13,7 @@ import com.digital.productservice.entity.Product;
  */
 @Service
 public interface IProductService {
+	
 	
 	/**
 	 * @return
@@ -28,7 +30,8 @@ public interface IProductService {
 	 * @param id
 	 * @return
 	 */
-	public String updateProductByID(int id);
+	public String updateProductByID(int id , ProductDto productDto);
+	
 	
 
 }
