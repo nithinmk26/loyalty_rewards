@@ -74,13 +74,13 @@ public class ProductController {
 		return new ResponseEntity<>(bookDataService.saveBookData(bookdata),HttpStatus.CREATED);
 	}
 	
-	@PutMapping(":/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<String> saveBookProducts(@PathVariable int id , @RequestBody ProductDto productDto)
 	{
 		return new ResponseEntity<>(productService.updateProductByID(id, productDto),HttpStatus.OK);
 	}
 	
-	@DeleteMapping(":/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteProductById(@PathVariable int id)
 	{
 		return new ResponseEntity<>(productService.deleteProductByID(id),HttpStatus.OK);
