@@ -26,6 +26,9 @@ public class Item {
 	@Column(name = "product_id")
 	private int productId;
 	
+	@Column(name = "quantity")
+	private int quantity;
+	
 	@Column(name = "product_name")
 	private String name;
 	
@@ -35,7 +38,40 @@ public class Item {
 	@Column(name = "return_within")
 	private String returnWithin;
 	
+	@Column(name = "product_price")
+	private double productPrice;
 	
+	
+	
+	
+
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @return the productPrice
+	 */
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	/**
+	 * @param productPrice the productPrice to set
+	 */
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
 
 	/**
 	 * @return the productId

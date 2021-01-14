@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.digital.cart.dto.CartDto;
 import com.digital.cart.entity.CartDetail;
 import com.digital.cart.exception.CartPersistingException;
+import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.cart.service.ICartService;
 import com.digital.cart.utility.UtilityMethods;
 
@@ -24,9 +25,9 @@ public class CartFacade {
 	@Autowired
 	private ICartService cartService;
 
-	public CartDto addToCart(CartDto cartDto) throws CartPersistingException {
+	public CartDto addToCart(CartDto cartDto) throws LoyaltyRewardsGlobalAppException {
 		CartDetail cartDetail = UtilityMethods.convertCartDtotoEntity(cartDto);
-		cartService.addToCart(cartDetail);
+		String message = cartService.addToCart(cartDetail);
 		return null;
 	}
 	

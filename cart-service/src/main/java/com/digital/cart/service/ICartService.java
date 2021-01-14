@@ -4,7 +4,7 @@
 package com.digital.cart.service;
 
 import com.digital.cart.entity.CartDetail;
-import com.digital.cart.exception.CartPersistingException;
+import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
 
 /**
  * @author Loyalty_Digiteam
@@ -12,6 +12,6 @@ import com.digital.cart.exception.CartPersistingException;
  */
 public interface ICartService {
 
-	CartDetail addToCart(CartDetail cartDetail) throws CartPersistingException;
+	String addToCart(CartDetail cartDetail) throws LoyaltyRewardsGlobalAppException;
 
 }
