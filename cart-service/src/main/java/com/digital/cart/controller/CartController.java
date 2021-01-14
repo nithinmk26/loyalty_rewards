@@ -12,7 +12,7 @@ import com.digital.cart.repository.CartRepository;
 import io.swagger.annotations.Api;
 
 /**
- * @author Loyalty_Digiteam
+ * @author 	
  *
  */
 @RestController
