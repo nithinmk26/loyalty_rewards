@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.digital.cart.dao.ICartDao;
 import com.digital.cart.entity.CartDetail;
+import com.digital.cart.exception.CartFetchingException;
 import com.digital.cart.exception.CartPersistingException;
 import com.digital.cart.service.ICartService;
 
@@ -22,10 +23,21 @@ public class CartServiceImpl implements ICartService{
 	private ICartDao cartDao;
 
 	@Override
-	public CartDetail addToCart(CartDetail cartDetail) throws CartPersistingException {
+	public CartDetail addToCart(CartDetail cartDetail) throws CartPersistingException, CartFetchingException {
 		CartDetail existedCart = cartDao.getUsercartByUserId(cartDetail.getUserId());
-		cartDao.createCart(cartDetail);
-		return null;
+		return cartDao.createCart(cartDetail);
 	}
+
+	@Override
+	public String deleteServiceCartDetails(int userId) throws CartPersistingException {
+		Boolean value  = cartDao.deleteCartByUserId(userId);
+		if(value == true) {
+			return "Deleted the cart details successfully";
+		}else {
+			throw new CartPersistingException("No such UserId");
+		}
+	
+	}
+	
 
 }
