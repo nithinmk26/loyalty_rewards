@@ -25,12 +25,18 @@ import com.digital.productservice.service.IElectronicApplianceService;
 import com.digital.productservice.service.IHouseHoldService;
 import com.digital.productservice.service.IProductService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * @author 
  *
  */
 @RestController
 @RequestMapping("/product")
+@Api(value = "Product Service", description = "List of API's Available for Product Search and Product persisting.", tags = { "Product Service" })
 public class ProductController {
 
 	@Autowired
@@ -48,58 +54,98 @@ public class ProductController {
 	@Autowired
 	private IApparelDataService apparelDataService;
 
-	@GetMapping("/books")
+	@GetMapping("/book")
+	@ApiOperation(value = " Fetching All Book Details from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched List Of Book information"),
+			@ApiResponse(code = 404,message = "Books Not Found in Database .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<List<BookDataDto>> getAllBookProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(bookDataService.getAllBookProducts(),HttpStatus.OK);
 	}
 
 	@GetMapping("/apparel")
-	public ResponseEntity<List<ApparelDataDto>> getAllApparelProducts(){
+	@ApiOperation(value = " Fetching All Apparel Details from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched List Of Apparel information"),
+			@ApiResponse(code = 404,message = "Apparel Not Found in Database .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<List<ApparelDataDto>> getAllApparelProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(apparelDataService.getAllApparelProducts(),HttpStatus.OK);
 	}
 
 	@GetMapping("/electronic")
+	@ApiOperation(value = " Fetching All Electronics Details from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched List Of Electronics information"),
+			@ApiResponse(code = 404,message = "Books Not Found in Database .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<List<ElectronicAppliancesDto>> getAllElectronicProducts(){
 		return new ResponseEntity<>(electronicApplianceservice.getAllElectronicProducts(),HttpStatus.OK);
 	}
 
 	@GetMapping("/household")
-	public ResponseEntity<List<HouseHoldItemDto>> getAllHouseProducts(){
+	@ApiOperation(value = " Fetching All HouseHoldItems Details from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched List Of HouseHoldItems information"),
+			@ApiResponse(code = 404,message = "Books Not Found in Database .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<List<HouseHoldItemDto>> getAllHouseProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(houseHoldService.getAllHouseHoldProducts(),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Delete Product From DB based on Product ID....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Deleted Product information from DB"),
+			@ApiResponse(code = 404,message = "Product Not Found in Database .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> deleteProductById(@PathVariable int id)
 	{
 		return new ResponseEntity<>(productService.deleteProductByID(id),HttpStatus.OK);
 	}
 
 	@PostMapping("/book")
+	@ApiOperation(value = "Persist Book Details in Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved Book information in DB"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> saveBookProduct(@RequestBody BookDataDto bookdata) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(bookDataService.saveBookData(bookdata),HttpStatus.CREATED);
 	}
 
 	@PostMapping("/apparel")
+	@ApiOperation(value = "Persist Apparrel Details in Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved Book information in DB"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> saveApparelData(@RequestBody ApparelDataDto apparelDataDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(apparelDataService.saveApparelData(apparelDataDto),HttpStatus.CREATED);
 	}
 
-	@PostMapping("/electronics")
+	@PostMapping("/electronic")
+	@ApiOperation(value = "Persist Electronics Details in Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved Electronics information in DB"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> saveElectronicApplianceData(@RequestBody ElectronicAppliancesDto electronicAppliancesDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(electronicApplianceservice.saveElectronicApplianceData(electronicAppliancesDto),HttpStatus.CREATED);
 	}
 
-	@PostMapping("/house")
+	@PostMapping("/household")
+	@ApiOperation(value = "Persist HouseHoldItem Details in Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved HouseHoldItem information in DB"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> saveHouseHoldData(@RequestBody HouseHoldItemDto houseHoldItemDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(houseHoldService.saveHouseHoldData(houseHoldItemDto),HttpStatus.CREATED);
 	}
 
 	@GetMapping("/all")
+	@ApiOperation(value = "Fetch all product Details from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched product details from DB"),
+			@ApiResponse(code = 404,message = "No Products found in DB .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<List<ProductDetailsData>> getAllProducts() throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
 	}
 
 	@GetMapping("/{productId}")
+	@ApiOperation(value = "Fetch product based on Product ID from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched product details from DB"),
+			@ApiResponse(code = 404,message = "No Products found in DB .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<ProductDetailsData> fetchProductById(@PathVariable int productId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(productService.fetchProductById(productId),HttpStatus.OK);
 	}

@@ -3,6 +3,7 @@ package com.digital.productservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.digital.productservice.dto.HouseHoldItemDto;
 import com.digital.productservice.entity.HouseHoldItemData;
+import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.exception.ProductServicePersistingException;
 import com.digital.productservice.repository.HouseHoldItemRepository;
 import com.digital.productservice.service.IHouseHoldService;
@@ -35,15 +37,11 @@ public class HouseHoldServiceImpl implements IHouseHoldService {
 	}
 
 	@Override
-	public List<HouseHoldItemDto> getAllHouseHoldProducts() {
+	public List<HouseHoldItemDto> getAllHouseHoldProducts() throws ProductServiceFetchingException {
 		List<HouseHoldItemData> housedata = houseHoldItemRepository.findAll();
-		List<HouseHoldItemDto> housedatadto = new ArrayList<>();
-		for (HouseHoldItemData housedtoobj : housedata) {
-
-			HouseHoldItemDto houseDataDto = modelMapper.map(housedtoobj, HouseHoldItemDto.class);
-			housedatadto.add(houseDataDto);
-		}
-		return housedatadto;
+		housedata.stream().findAny().orElseThrow(()->new ProductServiceFetchingException("No House hold records found in Database..!")).getId();
+		return housedata.stream().map(product->modelMapper.map(product, HouseHoldItemDto.class)).collect(Collectors.toList());
+	
 	}
 
 

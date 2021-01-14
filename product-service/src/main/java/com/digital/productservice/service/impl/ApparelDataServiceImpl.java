@@ -1,7 +1,8 @@
 package com.digital.productservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,10 @@ public class ApparelDataServiceImpl implements IApparelDataService{
 
 
 	@Override
-	public List<ApparelDataDto> getAllApparelProducts() {
+	public List<ApparelDataDto> getAllApparelProducts() throws ProductServicePersistingException {
 		List<ApparelData> apparelData = apparelDataRepository.findAll();
-		List<ApparelDataDto> apparelDataDtos = new ArrayList<ApparelDataDto>();
-		for (ApparelData appData : apparelData) {
-
-			ApparelDataDto apparelDataDtoobj = modelMapper.map(appData, ApparelDataDto.class);
-			apparelDataDtos.add(apparelDataDtoobj);
-		}
-		return apparelDataDtos;
-
+		apparelData.stream().findAny().orElseThrow(()->new ProductServicePersistingException("NO Apparel Found in Database..!")).getId();
+		return apparelData.stream().map(product->modelMapper.map(product, ApparelDataDto.class)).collect(Collectors.toList());
 	}
 
 	@Override

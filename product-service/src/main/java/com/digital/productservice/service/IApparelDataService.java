@@ -10,5 +10,5 @@ public interface IApparelDataService {
 	
 	public String saveApparelData(ApparelDataDto appareldata) throws ProductServicePersistingException;
   
-	public List<ApparelDataDto> getAllApparelProducts();
+	public List<ApparelDataDto> getAllApparelProducts() throws ProductServicePersistingException;
 }
