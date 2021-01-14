@@ -23,4 +23,5 @@ public interface CartRepository extends JpaRepository<CartDetail, Integer>{
 	
 	boolean existsByUserId(int userId);
 
+
 }

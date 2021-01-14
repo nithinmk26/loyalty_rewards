@@ -1,9 +1,5 @@
 package com.digital.cart.dto;
 
-import java.util.List;
-
-import com.digital.cart.entity.Item;
-
 public class ItemDto {
 	
 	private int id;
@@ -12,9 +8,43 @@ public class ItemDto {
 	
 	private String name;
 	
+	private int quantity;
+	
 	private String description;
 	
 	private String returnWithin;
+	
+	private double productPrice;
+	
+	
+	
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @return the productPrice
+	 */
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	/**
+	 * @param productPrice the productPrice to set
+	 */
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
 
 	/**
 	 * @return the id

@@ -41,16 +41,24 @@ public class CartController {
 	@ApiOperation(value = "Adding items Into The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<CartDto> addToCart(@RequestBody CartDto cartDto) throws LoyaltyRewardsGlobalAppException{
+	public ResponseEntity<String> addToCart(@RequestBody CartDto cartDto) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.addToCart(cartDto),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{userId}")
-	@ApiOperation(value = "Adding items Into The user Cart....")
+	@ApiOperation(value = "Deleting The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> deleteCartDetails(@PathVariable int userId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.deleteCartDetails(userId),HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{userId}/item/{itemId}")
+	@ApiOperation(value = "Deleting The user Cart....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<String> deleteItemInCartDetails(@PathVariable int userId , @PathVariable int itemId) throws LoyaltyRewardsGlobalAppException{
+		return new ResponseEntity<>(cartFacade.deleteItemInCartDetails(userId , itemId),HttpStatus.OK);
 	}
 	
 }

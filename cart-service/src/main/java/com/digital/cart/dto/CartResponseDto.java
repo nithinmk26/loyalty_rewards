@@ -2,13 +2,19 @@ package com.digital.cart.dto;
 
 import java.util.List;
 
-public class CartDto {
+public class CartResponseDto {
 	
 	private int cartId;
 	
 	private int userId;
 	
 	private String userName;	
+	
+	private double cartValue;
+	
+	private double deliveryCharges;
+	
+	private int numOfItemsInCart;
 	
 	private List<ItemDto> itemList;
 
@@ -55,6 +61,48 @@ public class CartDto {
 	}
 
 	/**
+	 * @return the cartValue
+	 */
+	public double getCartValue() {
+		return cartValue;
+	}
+
+	/**
+	 * @param cartValue the cartValue to set
+	 */
+	public void setCartValue(double cartValue) {
+		this.cartValue = cartValue;
+	}
+
+	/**
+	 * @return the deliveryCharges
+	 */
+	public double getDeliveryCharges() {
+		return deliveryCharges;
+	}
+
+	/**
+	 * @param deliveryCharges the deliveryCharges to set
+	 */
+	public void setDeliveryCharges(double deliveryCharges) {
+		this.deliveryCharges = deliveryCharges;
+	}
+
+	/**
+	 * @return the numOfItemsInCart
+	 */
+	public int getNumOfItemsInCart() {
+		return numOfItemsInCart;
+	}
+
+	/**
+	 * @param numOfItemsInCart the numOfItemsInCart to set
+	 */
+	public void setNumOfItemsInCart(int numOfItemsInCart) {
+		this.numOfItemsInCart = numOfItemsInCart;
+	}
+
+	/**
 	 * @return the itemList
 	 */
 	public List<ItemDto> getItemList() {
@@ -67,6 +115,7 @@ public class CartDto {
 	public void setItemList(List<ItemDto> itemList) {
 		this.itemList = itemList;
 	}
-
 	
+	
+
 }
