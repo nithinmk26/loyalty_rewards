@@ -1,5 +1,6 @@
 package com.digital.cart.dao.daoimpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,4 +96,12 @@ public class CartDaoImpl implements ICartDao{
 			}
 			
 	}
+
+	@Override
+	public void updateItemsInCart(List<Item> itemListToUpdate) {
+		for (Item item : itemListToUpdate) {
+			itemRepository.saveAndFlush(item);
+		}
+		
+	} 
 }

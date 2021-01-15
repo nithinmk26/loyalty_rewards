@@ -4,29 +4,13 @@ import java.util.List;
 
 public class CartDto {
 	
-	private int cartId;
-	
 	private int userId;
 	
 	private String userName;	
 	
 	private List<ItemDto> itemList;
 
-	/**
-	 * @return the cartId
-	 */
-	public int getCartId() {
-		return cartId;
-	}
-
-	/**
-	 * @param cartId the cartId to set
-	 */
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
-	}
-
-	/**
+		/**
 	 * @return the userId
 	 */
 	public int getUserId() {
