@@ -6,14 +6,15 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 
 import com.digital.cart.dto.CartDto;
+import com.digital.cart.dto.CartResponseDto;
 import com.digital.cart.entity.CartDetail;
 
 public class UtilityMethods {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
-	public static CartDto convertCartToDto(CartDetail cartDetail) {
-		return modelMapper.map(cartDetail, CartDto.class);
+	public static CartResponseDto convertCartToDto(CartDetail cartDetail) {
+		return modelMapper.map(cartDetail, CartResponseDto.class);
 	}
 	
 	public static CartDetail convertCartDtotoEntity(CartDto cartDto) {

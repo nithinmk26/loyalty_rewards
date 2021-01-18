@@ -25,13 +25,8 @@ public class CartServiceImpl implements ICartService{
 
 	@Autowired
 	private ICartDao cartDao;
-
+	
 	@Override
-
-	//	public CartDetail addToCart(CartDetail cartDetail) throws CartPersistingException, CartFetchingException {
-	//		CartDetail existedCart = cartDao.getUsercartByUserId(cartDetail.getUserId());
-	//		return cartDao.createCart(cartDetail);
-
 	public String addToCart(CartDetail cartDetail) throws LoyaltyRewardsGlobalAppException {
 		Optional<CartDetail> existedCart = cartDao.getUsercartByUserId(cartDetail.getUserId());
 		if(!existedCart.isPresent()) {
@@ -40,21 +35,28 @@ public class CartServiceImpl implements ICartService{
 			return "Cart Details Successfully Saved in DB...!";
 		}
 		else {
-			//			double cartValue = cartDetail.getItemList().stream().mapToDouble(
-			//					item->
-			//						 item.getProductPrice() * item.getQuantity()
-			//								).sum();
-			//			
-			//			
-			//			existedCart.get().setDeliveryCharges(cartDetail.getNumOfItemsInCart() * 10.0);
-			//			existedCart.get().setDeliveryCharges(existedCart.get().getDeliveryCharges() + cartValue);			
-			existedCart.get().getItemList().addAll(cartDetail.getItemList());
-			existedCart.get().setNumOfItemsInCart(existedCart.get().getItemList().size());
+			existedCart = updateCartItemsIntoExistingCart(cartDetail,existedCart);	
 			CartDetail cartdetailobj = calculationOfDeliveryAndCartValue(existedCart.get());
 			cartDao.updateExistingCart(cartdetailobj);
 			return "Cart Details SuccessFully Updated in DB...!";
 		}
 
+	} 
+	
+	public Optional<CartDetail> updateCartItemsIntoExistingCart(CartDetail newCartItems, Optional<CartDetail> existingCarItems) {
+		for (Item itemInNewCart : newCartItems.getItemList()) {
+			boolean isExists = false;
+			for (Item itemInExistingCart : existingCarItems.get().getItemList()) {
+				if(itemInNewCart.getProductId() == itemInExistingCart.getProductId()) {
+					itemInExistingCart.setQuantity(itemInExistingCart.getQuantity() + itemInNewCart.getQuantity());
+					isExists = true;
+				}
+			}
+			if(!isExists)
+				existingCarItems.get().getItemList().add(itemInNewCart);
+		}
+		return existingCarItems;
+		
 	}
 
 	public CartDetail calculationOfDeliveryAndCartValue(CartDetail cartDetail) {
@@ -70,12 +72,10 @@ public class CartServiceImpl implements ICartService{
 
 	@Override
 	public String deleteServiceCartDetails(int userId) throws CartPersistingException {
-		Boolean value  = cartDao.deleteCartByUserId(userId);
-		if(value == true) {
+		if(cartDao.deleteCartByUserId(userId)) 
 			return "Deleted the cart details successfully";
-		}else {
+		else
 			throw new CartPersistingException("No such UserId");
-		}
 
 	}
 
@@ -107,5 +107,13 @@ public class CartServiceImpl implements ICartService{
 		}
 		return "Updation on cart was successfull";
 	}
-		
+
+
+	@Override
+	public CartDetail getCartByUserId(int userId) throws CartFetchingException {
+		Optional<CartDetail> cart = cartDao.getUsercartByUserId(userId);
+		cart.orElseThrow(()->new CartFetchingException("Unable to find the cart for specified user ID...!"));
+		return cart.get();
+	}
+
 }

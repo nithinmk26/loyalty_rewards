@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digital.cart.dto.CartDto;
+import com.digital.cart.dto.CartResponseDto;
 import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.cart.facade.CartFacade;
 
@@ -59,6 +59,15 @@ public class CartController {
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> deleteItemInCartDetails(@PathVariable int userId , @PathVariable int itemId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.deleteItemInCartDetails(userId , itemId),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{userId}")
+	@ApiOperation(value = "Fetch The user Cart based on ID....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched cart details "),
+			@ApiResponse(code = 404,message = "Cart Found for specified User ID .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<CartResponseDto> getCartByUserId(@PathVariable int userId) throws LoyaltyRewardsGlobalAppException{
+		return new ResponseEntity<>(cartFacade.getCartByUserId(userId),HttpStatus.OK);
 	}
 	
 }

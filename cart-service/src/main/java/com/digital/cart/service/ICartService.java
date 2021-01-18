@@ -23,4 +23,6 @@ public interface ICartService {
 	String addToCart(CartDetail cartDetail) throws LoyaltyRewardsGlobalAppException;
 
 	String deleteItemInCartDetails(int userId , int itemId) throws CartPersistingException , CartFetchingException;
+
+	CartDetail getCartByUserId(int userId) throws CartFetchingException;
 }
