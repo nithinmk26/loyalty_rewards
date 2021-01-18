@@ -81,33 +81,33 @@ public class CartServiceImpl implements ICartService{
 
 	@Override
 	public String deleteItemInCartDetails(int userId, int itemId) throws CartPersistingException, CartFetchingException {
-		Optional<CartDetail> cart = cartDao.getUsercartByUserId(userId);
-		String msg = "";
-		if(cart.isPresent())
-		{
-			for (Item item : cart.get().getItemList()) {
-				if(item.getId() == itemId)
-				{
-					if(item.getQuantity() == 1)
-					{
-						cartDao.deleteItemByCartUserId(itemId ,cart);
-					}
-					else {
-						item.setQuantity(item.getQuantity()-1);
-						CartDetail cartdetailobj = calculationOfDeliveryAndCartValue(cart.get());
-						cartDao.updateExistingCart(cartdetailobj);
-					}
+		Optional<CartDetail> cartObj = cartDao.getUsercartByUserId(userId);
+		cartObj.orElseThrow(()->new CartFetchingException("Unable to find the user cart..")).getCartId();
+		CartDetail cart = new CartDetail() ;
+		if(cartObj.isPresent()) {
+			 cart = cartObj.get();
+		}
+		for (Item itemObj : cart.getItemList()) {
+			if(itemObj.getId() == itemId)
+			{
+				if(cart.getNumOfItemsInCart() == 1 && itemObj.getQuantity() == 1) {
+					cartDao.deleteCartByUserId(userId);
 				}
+				else if(cart.getNumOfItemsInCart() > 1 && itemObj.getQuantity() == 1) {
+					cartDao.deleteItemByCartUserId(itemId, cart);
+					cart.getItemList().remove(itemObj);
+					cart = calculationOfDeliveryAndCartValue(cart);
+					cartDao.updateExistingCart(cart);
+				}else {
+					itemObj.setQuantity(itemObj.getQuantity() - 1);
+					cart = calculationOfDeliveryAndCartValue(cart);
+					cartDao.updateExistingCart(cart);
+				} 
 			}
-
 		}
-		else {
-			throw new CartPersistingException("No Such userID / Item ID");
-		}
-
-		return "Successfully deleted items from cart";
-
+		return "Updation on cart was successfull";
 	}
+
 
 	@Override
 	public CartDetail getCartByUserId(int userId) throws CartFetchingException {
@@ -115,4 +115,5 @@ public class CartServiceImpl implements ICartService{
 		cart.orElseThrow(()->new CartFetchingException("Unable to find the cart for specified user ID...!"));
 		return cart.get();
 	}
+
 }

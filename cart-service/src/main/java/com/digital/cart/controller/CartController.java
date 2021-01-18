@@ -53,7 +53,7 @@ public class CartController {
 		return new ResponseEntity<>(cartFacade.deleteCartDetails(userId),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{userId}/item/{itemId}")
+	@PutMapping("/{userId}/item/{itemId}")
 	@ApiOperation(value = "Deleting The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})

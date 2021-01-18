@@ -21,10 +21,10 @@ public class CartDaoImpl implements ICartDao{
 
 	@Autowired
 	private CartRepository cartRepository;
-	
+
 	@Autowired
 	private ItemDetailsRepository itemRepository;
-	
+
 	private static final String FAIL_MSG = "Failed to save the cart Details..!";
 
 	@Override
@@ -39,23 +39,23 @@ public class CartDaoImpl implements ICartDao{
 
 	@Override
 	public Optional<CartDetail> getUsercartByUserId(int userId) throws CartFetchingException {
-		
+
 		try {
 			return cartRepository.findByUserId(userId);
-			}
-			catch (Exception e) {
-				throw new CartFetchingException(FAIL_MSG);
-			}
+		}
+		catch (Exception e) {
+			throw new CartFetchingException(FAIL_MSG);
+		}
 	}
 
 	@Override
 	public CartDetail updateExistingCart(CartDetail existedCart) throws CartPersistingException {
 		try {
 			return cartRepository.saveAndFlush(existedCart);
-			}
-			catch (Exception e) {
-				throw new CartPersistingException(FAIL_MSG);
-			}
+		}
+		catch (Exception e) {
+			throw new CartPersistingException(FAIL_MSG);
+		}
 
 	}
 
@@ -78,23 +78,20 @@ public class CartDaoImpl implements ICartDao{
 	}
 
 	@Override
-	public String deleteItemByCartUserId(int itemId , Optional<CartDetail> cartdetail) throws CartPersistingException {
-			try {
-					for (Item itemdata : cartdetail.get().getItemList()) {
-						System.out.println("Hi");
-						if(itemdata.getId() == itemId)
-							{System.out.println(itemdata.getId() +"and"+ itemId);
-							// System.out.println(itemRepository.findAll().toString());
-						 itemRepository.deleteById(itemId);
-						 System.out.println(itemRepository.getOne(itemId));
-						 itemRepository.delete(itemRepository.getOne(itemId));
-						 System.out.println(itemRepository.findAll().toString());
-				}}return "deleted successsfully";
-		}catch(Exception e)
-			{
-			throw new CartPersistingException(FAIL_MSG);
-			}
-			
+	public CartDetail deleteItemByCartUserId(int itemId , CartDetail cartdetail) throws CartPersistingException {
+	try{
+		for (Item item : cartdetail.getItemList()) {
+		if(item.getId() == itemId)
+		{
+			cartdetail.getItemList().remove(item);
+			itemRepository.deleteById(itemId);
+	}
+	}}catch(Exception e)
+	{
+		throw new CartPersistingException(FAIL_MSG);
+	}
+		return cartdetail;
+
 	}
 
 	@Override
