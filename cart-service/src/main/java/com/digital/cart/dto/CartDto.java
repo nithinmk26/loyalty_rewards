@@ -4,23 +4,23 @@ import java.util.List;
 
 public class CartDto {
 	
-	private int userId;
+	private String userId;
 	
 	private String userName;	
 	
 	private List<ItemDto> itemList;
 
-		/**
+	/**
 	 * @return the userId
 	 */
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

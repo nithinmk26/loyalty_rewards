@@ -17,11 +17,11 @@ import com.digital.cart.entity.CartDetail;
 @Repository
 public interface CartRepository extends JpaRepository<CartDetail, Integer>{
 	
-	Optional<CartDetail> findByUserId( int userId);
+	Optional<CartDetail> findByUserId( String userId);
 	
-	 void deleteByUserId(int userId);
+	 void deleteByUserId(String userId);
 	
-	boolean existsByUserId(int userId);
+	boolean existsByUserId(String userId);
 
 
 }

@@ -49,7 +49,7 @@ public class CartController {
 	@ApiOperation(value = "Deleting The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<String> deleteCartDetails(@PathVariable int userId) throws LoyaltyRewardsGlobalAppException{
+	public ResponseEntity<String> deleteCartDetails(@PathVariable String userId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.deleteCartDetails(userId),HttpStatus.OK);
 	}
 	
@@ -57,7 +57,7 @@ public class CartController {
 	@ApiOperation(value = "Deleting The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<String> deleteItemInCartDetails(@PathVariable int userId , @PathVariable int itemId) throws LoyaltyRewardsGlobalAppException{
+	public ResponseEntity<String> deleteItemInCartDetails(@PathVariable String userId , @PathVariable int itemId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.deleteItemInCartDetails(userId , itemId),HttpStatus.OK);
 	}
 	
@@ -66,7 +66,7 @@ public class CartController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched cart details "),
 			@ApiResponse(code = 404,message = "Cart Found for specified User ID .."),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<CartResponseDto> getCartByUserId(@PathVariable int userId) throws LoyaltyRewardsGlobalAppException{
+	public ResponseEntity<CartResponseDto> getCartByUserId(@PathVariable String userId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.getCartByUserId(userId),HttpStatus.OK);
 	}
 	

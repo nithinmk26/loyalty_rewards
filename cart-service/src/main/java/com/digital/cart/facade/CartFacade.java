@@ -5,6 +5,7 @@ package com.digital.cart.facade;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,22 +28,25 @@ public class CartFacade {
 	@Autowired
 	private ICartService cartService;
 	
-	public String deleteCartDetails(int userId) throws CartPersistingException {
+	private ModelMapper modelMapper = new ModelMapper();
+	
+	public String deleteCartDetails(String userId) throws CartPersistingException {
 		return cartService.deleteServiceCartDetails(userId);
 	}
 
 	public String addToCart(CartDto cartDto) throws LoyaltyRewardsGlobalAppException {
+//		CartDetail cartDetail = modelMapper.map(cartDto, CartDetail.class);
 		CartDetail cartDetail = UtilityMethods.convertCartDtotoEntity(cartDto);
 		return cartService.addToCart(cartDetail);
  		
 
 	}
 	
-	public String deleteItemInCartDetails(int userId , int itemId) throws LoyaltyRewardsGlobalAppException {
+	public String deleteItemInCartDetails(String userId , int itemId) throws LoyaltyRewardsGlobalAppException {
 		return cartService.deleteItemInCartDetails(userId , itemId);
 	}
 
-	public CartResponseDto getCartByUserId(int userId) throws CartFetchingException {
+	public CartResponseDto getCartByUserId(String userId) throws CartFetchingException {
 		CartDetail cartDetail = cartService.getCartByUserId(userId);
 		return UtilityMethods.convertCartToDto(cartDetail);
 	}

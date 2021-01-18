@@ -18,11 +18,11 @@ public interface ICartService {
 
 	//CartDetail addToCart(CartDetail cartDetail)throws CartPersistingException, CartFetchingException ;
 	
-	String deleteServiceCartDetails(int userId) throws CartPersistingException;
+	String deleteServiceCartDetails(String userId) throws CartPersistingException;
 
 	String addToCart(CartDetail cartDetail) throws LoyaltyRewardsGlobalAppException;
 
-	String deleteItemInCartDetails(int userId , int itemId) throws CartPersistingException , CartFetchingException;
+	String deleteItemInCartDetails(String userId , int itemId) throws CartPersistingException , CartFetchingException;
 
-	CartDetail getCartByUserId(int userId) throws CartFetchingException;
+	CartDetail getCartByUserId(String userId) throws CartFetchingException;
 }

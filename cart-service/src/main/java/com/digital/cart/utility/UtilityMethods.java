@@ -1,5 +1,6 @@
 package com.digital.cart.utility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,7 +8,9 @@ import org.modelmapper.ModelMapper;
 
 import com.digital.cart.dto.CartDto;
 import com.digital.cart.dto.CartResponseDto;
+import com.digital.cart.dto.ItemDto;
 import com.digital.cart.entity.CartDetail;
+import com.digital.cart.entity.Item;
 
 public class UtilityMethods {
 	
@@ -18,7 +21,15 @@ public class UtilityMethods {
 	}
 	
 	public static CartDetail convertCartDtotoEntity(CartDto cartDto) {
-		return modelMapper.map(cartDto, CartDetail.class);
+		CartDetail cart =  new CartDetail();
+		List<Item> itemList = new ArrayList();
+		for (ItemDto item : cartDto.getItemList()) {
+			itemList.add(modelMapper.map(item, Item.class));
+		}
+		cart.setItemList(itemList);
+		cart.setUserName(cartDto.getUserName());
+		cart.setUserId(cartDto.getUserId());
+		return cart;
 	}
 	
 	public static List<CartDto> convertListofCartToDto(List<CartDetail> listOfCartDetail){

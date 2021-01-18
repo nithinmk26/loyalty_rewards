@@ -12,15 +12,17 @@ public interface ICartDao {
 	
 	CartDetail createCart(CartDetail cartDetail) throws CartPersistingException;
 	
-	boolean deleteCartByUserId(int userId) throws CartPersistingException;
+	boolean deleteCartByUserId(String userId) throws CartPersistingException;
 	
-	Optional<CartDetail> getUsercartByUserId(int userId) throws CartFetchingException;
+	Optional<CartDetail> getUsercartByUserId(String userId) throws CartFetchingException;
 
 	CartDetail updateExistingCart(CartDetail existedCart) throws CartPersistingException;
 	
 	String  deleteItemByCartUserId(int itemId , Optional<CartDetail> cart) throws CartPersistingException;
 
 	void updateItemsInCart(List<Item> itemListToUpdate);
+
+
 	
 
 }

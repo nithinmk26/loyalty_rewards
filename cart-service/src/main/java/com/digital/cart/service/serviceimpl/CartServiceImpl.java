@@ -71,7 +71,7 @@ public class CartServiceImpl implements ICartService{
 	}
 
 	@Override
-	public String deleteServiceCartDetails(int userId) throws CartPersistingException {
+	public String deleteServiceCartDetails(String userId) throws CartPersistingException {
 		if(cartDao.deleteCartByUserId(userId)) 
 			return "Deleted the cart details successfully";
 		else
@@ -80,13 +80,13 @@ public class CartServiceImpl implements ICartService{
 	}
 
 	@Override
-	public String deleteItemInCartDetails(int userId, int itemId) throws CartPersistingException, CartFetchingException {
+	public String deleteItemInCartDetails(String userId, int itemId) throws CartPersistingException, CartFetchingException {
 		Optional<CartDetail> cart = cartDao.getUsercartByUserId(userId);
 		String msg = "";
 		if(cart.isPresent())
 		{
 			for (Item item : cart.get().getItemList()) {
-				if(item.getId() == itemId)
+				if(item.getProductId() == itemId)
 				{
 					if(item.getQuantity() == 1)
 					{
@@ -110,7 +110,7 @@ public class CartServiceImpl implements ICartService{
 	}
 
 	@Override
-	public CartDetail getCartByUserId(int userId) throws CartFetchingException {
+	public CartDetail getCartByUserId(String userId) throws CartFetchingException {
 		Optional<CartDetail> cart = cartDao.getUsercartByUserId(userId);
 		cart.orElseThrow(()->new CartFetchingException("Unable to find the cart for specified user ID...!"));
 		return cart.get();

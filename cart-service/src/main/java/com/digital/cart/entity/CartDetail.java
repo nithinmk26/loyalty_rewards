@@ -30,7 +30,7 @@ public class CartDetail {
 	private int cartId;
 	
 	@Column(name = "user_id")
-	private int userId;
+	private String userId;
 	
 	@Column(name = "user_name")
 	private String userName;
@@ -55,7 +55,7 @@ public class CartDetail {
 		return cartId;
 	}
 
-	/**
+	/** 
 	 * @param cartId the cartId to set
 	 */
 	public void setCartId(int cartId) {
@@ -65,14 +65,14 @@ public class CartDetail {
 	/**
 	 * @return the userId
 	 */
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -146,16 +146,11 @@ public class CartDetail {
 		this.itemList = itemList;
 	}
 
-	/**
-	 * @param cartId
-	 * @param userId
-	 * @param userName
-	 * @param cartValue
-	 * @param deliveryCharges
-	 * @param numOfItemsInCart
-	 * @param itemList
-	 */
-	public CartDetail(int cartId, int userId, String userName, double cartValue, double deliveryCharges,
+	public CartDetail() {
+		super();
+	}
+
+	public CartDetail(int cartId, String userId, String userName, double cartValue, double deliveryCharges,
 			int numOfItemsInCart, List<Item> itemList) {
 		super();
 		this.cartId = cartId;
@@ -167,15 +162,6 @@ public class CartDetail {
 		this.itemList = itemList;
 	}
 
-	/**
-	 * 
-	 */
-	public CartDetail() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
 	
 
 }

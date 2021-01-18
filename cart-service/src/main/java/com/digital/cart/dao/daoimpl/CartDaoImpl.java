@@ -38,7 +38,7 @@ public class CartDaoImpl implements ICartDao{
 	}
 
 	@Override
-	public Optional<CartDetail> getUsercartByUserId(int userId) throws CartFetchingException {
+	public Optional<CartDetail> getUsercartByUserId(String userId) throws CartFetchingException {
 		
 		try {
 			return cartRepository.findByUserId(userId);
@@ -60,7 +60,7 @@ public class CartDaoImpl implements ICartDao{
 	}
 
 	@Override
-	public boolean deleteCartByUserId(int userId) throws CartPersistingException {
+	public boolean deleteCartByUserId(String userId) throws CartPersistingException {
 		Boolean value = false;
 		try {
 			Optional<CartDetail> cart = cartRepository.findByUserId(userId);
@@ -82,14 +82,17 @@ public class CartDaoImpl implements ICartDao{
 			try {
 					for (Item itemdata : cartdetail.get().getItemList()) {
 						System.out.println("Hi");
-						if(itemdata.getId() == itemId)
-							{System.out.println(itemdata.getId() +"and"+ itemId);
+						if(itemdata.getProductId() == itemId)
+							{
+							System.out.println(itemdata.getId() +"and"+ itemId);
 							// System.out.println(itemRepository.findAll().toString());
 						 itemRepository.deleteById(itemId);
 						 System.out.println(itemRepository.getOne(itemId));
 						 itemRepository.delete(itemRepository.getOne(itemId));
 						 System.out.println(itemRepository.findAll().toString());
-				}}return "deleted successsfully";
+				}
+						}
+					return "deleted successsfully";
 		}catch(Exception e)
 			{
 			throw new CartPersistingException(FAIL_MSG);
