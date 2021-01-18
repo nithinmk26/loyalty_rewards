@@ -16,7 +16,7 @@ public interface ICartDao {
 
 	CartDetail updateExistingCart(CartDetail existedCart) throws CartPersistingException;
 	
-	String  deleteItemByCartUserId(int itemId , Optional<CartDetail> cart) throws CartPersistingException;
+	CartDetail deleteItemByCartUserId(int itemId , CartDetail cart) throws CartPersistingException;
 	
 
 }
