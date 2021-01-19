@@ -88,16 +88,19 @@ public class CartServiceImpl implements ICartService{
 			{
 				if(cart.getNumOfItemsInCart() == 1 && itemObj.getQuantity() == 1) {
 					cartDao.deleteCartByUserId(userId);
+					break;
 				}
 				else if(cart.getNumOfItemsInCart() > 1 && itemObj.getQuantity() == 1) {
 					cartDao.deleteItemByCartUserId(productId, cart);
 					cart.getItemList().remove(itemObj);
 					cart = calculationOfDeliveryAndCartValue(cart);
 					cartDao.updateExistingCart(cart);
+					break;
 				}else {
 					itemObj.setQuantity(itemObj.getQuantity() - 1);
 					cart = calculationOfDeliveryAndCartValue(cart);
 					cartDao.updateExistingCart(cart);
+					break;
 				} 
 			}
 		}

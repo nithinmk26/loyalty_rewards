@@ -26,12 +26,12 @@ public class UserController {
 	@Autowired
 	private UserFacade userFacade;
 	
-	@GetMapping("/")
-	public void getLoggedInMember(@AuthenticationPrincipal OAuth2User oAuth2User) {
-		System.err.println(oAuth2User);
-	}
+//	@GetMapping("/")
+//	public void getLoggedInMember(@AuthenticationPrincipal OAuth2User oAuth2User) {
+//		System.err.println(oAuth2User);
+//	}
 	
-	@PostMapping("/update")
+	@PostMapping("/")
 	@ApiOperation(value = "Update user Profile....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Updated Profile"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
@@ -40,7 +40,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/profile")
+	@GetMapping("/")
 	@ApiOperation(value = "Varify user Profile....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
