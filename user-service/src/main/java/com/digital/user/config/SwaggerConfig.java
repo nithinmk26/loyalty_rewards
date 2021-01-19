@@ -1,4 +1,7 @@
-package com.digital.cart.config;
+/**
+ * 
+ */
+package com.digital.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +37,7 @@ public class SwaggerConfig {
 	private ApiInfo metaData() {
 	@SuppressWarnings("deprecation")
 	ApiInfo apiInfo = new ApiInfo(
-	"Cart Service Management",
+	"User Service Management",
 	"OpenSource", "REST API", "Spring Boot ", "loyalty_Digiteam", "Version 1.0 ", "Copyright - loyalty_Digiteam ");
 	return apiInfo;
 	}

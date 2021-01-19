@@ -1,4 +1,4 @@
-package com.digital.cart.exception;
+package com.digital.user.exception;
 
 public class LoyaltyRewardsGlobalAppException extends Exception {
 
@@ -28,4 +28,3 @@ public class LoyaltyRewardsGlobalAppException extends Exception {
 	}
 
 }
-

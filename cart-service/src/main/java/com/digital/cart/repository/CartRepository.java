@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.digital.cart.repository;
 
 import java.util.Optional;
@@ -16,7 +13,12 @@ import com.digital.cart.entity.CartDetail;
  */
 @Repository
 public interface CartRepository extends JpaRepository<CartDetail, Integer>{
+	
+	Optional<CartDetail> findByUserId( String userId);
+	
+	 void deleteByUserId(String userId);
+	
+	boolean existsByUserId(String userId);
 
-	Optional<CartDetail> findByUserId(int userId);
 
 }
