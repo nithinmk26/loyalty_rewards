@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.digital.user.dto.request.CartDto;
 import com.digital.user.dto.request.UserProfileUpdateDto;
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.user.service.UserService;
@@ -21,6 +22,10 @@ public class UserFacade {
 	public String varifyProfile(OAuth2User oAuth2User) throws LoyaltyRewardsGlobalAppException {
 		return userService.isProfileUptoDate(oAuth2User);
 		
+	}
+
+	public String addToCart(OAuth2User oAuth2User, CartDto cartDto) {
+		return null;
 	}
 
 }
