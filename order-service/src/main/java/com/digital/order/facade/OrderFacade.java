@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;import com.digital.order.dto.CartR
 import com.digital.order.dto.PaymentDto;
 import com.digital.order.dto.UpiPaymentDto;
 import com.digital.order.entity.Order;
+import com.digital.order.entity.Order.paymentmode;
+import com.digital.order.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.order.service.IOrderService;
 import com.digital.order.utilitymethods.UtilityMethods;
 
@@ -14,20 +16,19 @@ public class OrderFacade {
 	@Autowired
 	private IOrderService orderService;
 	
-	public String addToOrder(CartResponseDto cartDto)
+	public String orderByCash(String userId) throws LoyaltyRewardsGlobalAppException
 	{
-		Order orderdetail = UtilityMethods.convertCartDtotoEntity(cartDto);
-		return orderService.addToOrder(orderdetail);
+		return orderService.orderByCash(userId);
 	}
 	
-	public boolean checkPayment(PaymentDto paymentDto)
+	public String orderByCard(PaymentDto paymentDto , String userId) throws LoyaltyRewardsGlobalAppException
 	{
-		return orderService.checkPayment(paymentDto);
+		return orderService.orderByCard( paymentDto,userId);
 	}
 	
-	public boolean checkPayment(UpiPaymentDto upiPayment)
+	public String orderByUpi(UpiPaymentDto upiPayment , String userId) throws LoyaltyRewardsGlobalAppException
 	{
-		return orderService.checkPayment(upiPayment);
+		return orderService.orderByUpi(upiPayment , userId);
 	}
 
 }

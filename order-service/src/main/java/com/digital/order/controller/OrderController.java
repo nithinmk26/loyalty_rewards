@@ -3,14 +3,12 @@ package com.digital.order.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.digital.order.dto.CartResponseDto;
 import com.digital.order.dto.PaymentDto;
 import com.digital.order.dto.UpiPaymentDto;
 import com.digital.order.exception.LoyaltyRewardsGlobalAppException;
@@ -27,25 +25,29 @@ public class OrderController {
 	@Autowired
 	private OrderFacade orderFacade;
 	
-	@PostMapping("/add")
-	@ApiOperation(value = "ordering items from The user Cart....")
+	@PostMapping("/paycash/{userId}")
+	@ApiOperation(value = "ordering prodcuts by cash")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<String> addToCart(@RequestBody CartResponseDto cartDto) throws LoyaltyRewardsGlobalAppException{
-		return new ResponseEntity<>(orderFacade.addToOrder(cartDto),HttpStatus.OK);
+	public ResponseEntity<String> OrderByCash(String userId) throws LoyaltyRewardsGlobalAppException{
+		return new ResponseEntity<>(orderFacade.orderByCash(userId),HttpStatus.OK);
 	}
 	
-	@PostMapping("/pay")
-	public boolean checkpayment(@RequestBody PaymentDto paymentDto) {
-		System.out.println(paymentDto.getCardName());
-		return orderFacade.checkPayment(paymentDto);
+	@PostMapping("/paycard/{userId}")
+	@ApiOperation(value = "ordering prodcuts by cash")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<String> checkpayment(@RequestBody PaymentDto paymentDto , @PathVariable String userId) throws LoyaltyRewardsGlobalAppException {
+		return new ResponseEntity<>(orderFacade.orderByCard(paymentDto , userId),HttpStatus.OK);
 	}
 	
-	@PostMapping("/pay")
-	public boolean checkpayment(@RequestBody UpiPaymentDto upiPayment) {
-		return orderFacade.checkPayment(upiPayment);
+	@PostMapping("/payupi/{userId}")
+	@ApiOperation(value = "ordering prodcuts by cash")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<String> checkpayment(@RequestBody UpiPaymentDto upiPayment , @PathVariable String userId) throws LoyaltyRewardsGlobalAppException {
+		return new ResponseEntity<>(orderFacade.orderByUpi(upiPayment , userId), HttpStatus.OK);
 	}
 	
-	 
 
 }
