@@ -22,7 +22,6 @@ public class UtilityMethods {
 		for (ItemDto item : cartDto.getItemList()) {
 			itemList.add(modelMapper.map(item, Items.class));
 		}
-		System.out.println(itemList.toString());
 		orderDetail.setItemList(itemList);
 		orderDetail.setUserName(cartDto.getUserName());
 		orderDetail.setUserId(cartDto.getUserId());

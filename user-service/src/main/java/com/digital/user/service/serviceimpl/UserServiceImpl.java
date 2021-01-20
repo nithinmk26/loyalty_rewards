@@ -2,6 +2,7 @@ package com.digital.user.service.serviceimpl;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +10,26 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.digital.user.dao.UserDao;
+import com.digital.user.dto.request.CartDto;
+import com.digital.user.dto.request.ItemDto;
 import com.digital.user.dto.request.UserProfileUpdateDto;
 import com.digital.user.entity.UserInformation;
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.user.exception.ProfileUpdatedException;
+import com.digital.user.proxy.CartServiceProxy;
 import com.digital.user.service.UserService;
+
+import feign.FeignException;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private CartServiceProxy cartServiceProxy;
+	
 
 	@Override
 	public String updateProfile(OAuth2User oAuth2User, UserProfileUpdateDto userProfileUpdateDto) throws LoyaltyRewardsGlobalAppException  {
@@ -58,5 +68,17 @@ public class UserServiceImpl implements UserService{
 		return "User Profile up to date.!";
 		
 	}
+
+	@Override
+	public String addToCart(OAuth2User oAuth2User, List<ItemDto> itemList) throws LoyaltyRewardsGlobalAppException {
+		isProfileUptoDate(oAuth2User);
+		CartDto cartDto = new CartDto().setUserId(oAuth2User.getName()).setUserName(oAuth2User.getAttribute("family_name")).setItemList(itemList);
+		try {
+		return cartServiceProxy.addToCart(cartDto).getBody();
+		}
+		 catch (FeignException e) {
+			 throw new CartServiceProxyAppException(e.contentUTF8());
+		 }
+		}
 
 }

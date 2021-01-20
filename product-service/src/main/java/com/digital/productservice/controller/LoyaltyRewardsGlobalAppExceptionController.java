@@ -11,15 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.digital.productservice.controller.proxy.ProductProxyController;
 import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.exception.ProductServicePersistingException;
+import com.digital.productservice.exception.ProductUnavailabilityException;
 
 /**
  * @author 
  *
  */
-@RestControllerAdvice(assignableTypes = ProductController.class)
+@RestControllerAdvice(assignableTypes = {ProductController.class,ProductProxyController.class})
 public class LoyaltyRewardsGlobalAppExceptionController {
 
 	private String err = "ERROR";
@@ -48,6 +50,11 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 	}
-
+	
+	@ExceptionHandler(ProductUnavailabilityException.class)
+	public ResponseEntity<String> loyaltyRewardsGlobalAppProxyExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
 
 }
