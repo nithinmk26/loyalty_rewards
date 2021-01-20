@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.digital.user.exception.CartServiceProxyAppException;
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.user.exception.ProfileUpdatedException;
 import com.digital.user.exception.UserFetchingException;
 import com.digital.user.exception.UserPersistingException;
-import com.digital.user.service.serviceimpl.CartServiceProxyAppException;
 
 /**
  * @author 

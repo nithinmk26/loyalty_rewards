@@ -1,6 +1,4 @@
-package com.digital.user.service.serviceimpl;
-
-import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
+package com.digital.user.exception;
 
 public class CartServiceProxyAppException extends LoyaltyRewardsGlobalAppException {
 
