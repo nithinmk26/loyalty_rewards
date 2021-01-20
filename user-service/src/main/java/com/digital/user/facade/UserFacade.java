@@ -1,10 +1,13 @@
 package com.digital.user.facade;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.digital.user.dto.request.CartDto;
+import com.digital.user.dto.request.ItemDto;
 import com.digital.user.dto.request.UserProfileUpdateDto;
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.user.service.UserService;
@@ -24,8 +27,8 @@ public class UserFacade {
 		
 	}
 
-	public String addToCart(OAuth2User oAuth2User, CartDto cartDto) {
-		return null;
+	public String addToCart(OAuth2User oAuth2User, List<ItemDto> itemList) throws LoyaltyRewardsGlobalAppException {
+		return userService.addToCart(oAuth2User,itemList);
 	}
 
 }

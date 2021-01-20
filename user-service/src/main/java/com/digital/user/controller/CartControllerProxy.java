@@ -1,16 +1,18 @@
 package com.digital.user.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.digital.user.dto.request.CartDto;
+import com.digital.user.dto.request.ItemDto;
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.user.facade.UserFacade;
 
@@ -28,12 +30,12 @@ public class CartControllerProxy {
 	@Autowired
 	private UserFacade userFacade;
 	
-	@GetMapping("/cart")
+	@PostMapping("/cart")
 	@ApiOperation(value = "Add to cart ....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<String> addToCart(@AuthenticationPrincipal OAuth2User oAuth2User,@RequestBody CartDto cartDto) throws LoyaltyRewardsGlobalAppException{
-		return new ResponseEntity<>(userFacade.addToCart(oAuth2User,cartDto),HttpStatus.OK);
+	public ResponseEntity<String> addToCart(@AuthenticationPrincipal OAuth2User oAuth2User,@RequestBody List<ItemDto> itemList) throws LoyaltyRewardsGlobalAppException{
+		return new ResponseEntity<>(userFacade.addToCart(oAuth2User,itemList),HttpStatus.OK);
 	}
 
 }

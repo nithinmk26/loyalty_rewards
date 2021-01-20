@@ -18,6 +18,7 @@ import com.digital.cart.entity.Item;
 
 public class UtilityMethods {
 	
+	
 	private static ModelMapper modelMapper = new ModelMapper();
 
 	public static CartResponseDto convertCartToDto(CartDetail cartDetail) {

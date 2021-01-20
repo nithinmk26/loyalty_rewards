@@ -20,8 +20,9 @@ public class CartDto {
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(String userId) {
+	public CartDto setUserId(String userId) {
 		this.userId = userId;
+		return this;
 	}
 
 	/**
@@ -34,8 +35,9 @@ public class CartDto {
 	/**
 	 * @param userName the userName to set
 	 */
-	public void setUserName(String userName) {
+	public CartDto setUserName(String userName) {
 		this.userName = userName;
+		return this;
 	}
 
 	/**
@@ -48,8 +50,9 @@ public class CartDto {
 	/**
 	 * @param itemList the itemList to set
 	 */
-	public void setItemList(List<ItemDto> itemList) {
+	public CartDto setItemList(List<ItemDto> itemList) {
 		this.itemList = itemList;
+		return this;
 	}
 
 	

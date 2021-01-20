@@ -12,14 +12,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.digital.user.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.user.exception.ProfileUpdatedException;
 import com.digital.user.exception.UserFetchingException;
 import com.digital.user.exception.UserPersistingException;
+import com.digital.user.service.serviceimpl.CartServiceProxyAppException;
 
 /**
  * @author 
  *
  */
-@RestControllerAdvice(assignableTypes = UserController.class)
+@RestControllerAdvice(assignableTypes = {UserController.class,CartControllerProxy.class})
 public class LoyaltyRewardsGlobalAppExceptionController {
 	
 	private String err = "ERROR";
@@ -43,6 +45,22 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 	
 	@ExceptionHandler(LoyaltyRewardsGlobalAppException.class)
 	public ResponseEntity<Map<String, Object>> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
+		Map<String, Object> response = new HashMap<>();
+		response.put(err, true);
+		response.put(msg, e.getLocalizedMessage());
+		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ProfileUpdatedException.class)
+	public ResponseEntity<Map<String, Object>> ProfileUpdatedExceptionHandler(Throwable t, Exception e){
+		Map<String, Object> response = new HashMap<>();
+		response.put(err, true);
+		response.put(msg, e.getLocalizedMessage());
+		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(CartServiceProxyAppException.class)
+	public ResponseEntity<Map<String, Object>> CartProxyExceptionHandler(Throwable t, Exception e){
 		Map<String, Object> response = new HashMap<>();
 		response.put(err, true);
 		response.put(msg, e.getLocalizedMessage());

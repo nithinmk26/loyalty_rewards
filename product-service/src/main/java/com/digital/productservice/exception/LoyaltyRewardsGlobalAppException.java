@@ -1,5 +1,7 @@
 package com.digital.productservice.exception;
 
+import java.util.List;
+
 public class LoyaltyRewardsGlobalAppException extends Exception {
 
 	/**
@@ -27,4 +29,5 @@ public class LoyaltyRewardsGlobalAppException extends Exception {
 		super(arg0);
 	}
 
+	
 }

@@ -2,6 +2,7 @@
 package com.digital.cart.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.digital.cart.exception.CartFetchingException;
 import com.digital.cart.exception.CartPersistingException;
 import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.cart.exception.ProductProxyException;
+
+import feign.FeignException;
 
 /**
  * @author 
@@ -45,6 +49,11 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(err, true);
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ProductProxyException.class)
+	public ResponseEntity<String> loyaltyRewardsGlobalAppProxyExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
 	}
 	
 	
