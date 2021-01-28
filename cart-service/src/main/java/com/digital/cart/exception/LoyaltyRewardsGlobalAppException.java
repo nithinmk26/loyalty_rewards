@@ -28,4 +28,3 @@ public class LoyaltyRewardsGlobalAppException extends Exception {
 	}
 
 }
-

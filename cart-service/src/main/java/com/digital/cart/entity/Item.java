@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.digital.cart.entity;
 
 import javax.persistence.Column;
@@ -37,6 +40,9 @@ public class Item {
 	
 	@Column(name = "product_price")
 	private double productPrice;
+	
+	
+	
 	
 
 	/**
@@ -135,13 +141,6 @@ public class Item {
 	 */
 	public void setReturnWithin(String returnWithin) {
 		this.returnWithin = returnWithin;
-	}
-
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", productId=" + productId + ", quantity=" + quantity + ", name=" + name
-				+ ", description=" + description + ", returnWithin=" + returnWithin + ", productPrice=" + productPrice
-				+ "]";
 	}
 	
 	
