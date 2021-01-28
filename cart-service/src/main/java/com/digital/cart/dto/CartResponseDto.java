@@ -6,8 +6,7 @@ public class CartResponseDto {
 	
 	private int cartId;
 	
-	private String userId;
-
+	private int userId;
 	
 	private String userName;	
 	
@@ -36,16 +35,14 @@ public class CartResponseDto {
 	/**
 	 * @return the userId
 	 */
-
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(String userId) {
-
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
