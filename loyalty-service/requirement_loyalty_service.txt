@@ -1,0 +1,40 @@
+work flow 
+API-1(member Creation)
+user service 
+-> user created and updated profile 
+-> user data send to kafka 
+
+loyalty service
+-> consume kafka topic 
+-> create member details to user
+	* fetch tier based on user country 
+	* fetch voucher based on user country and engagement (create voucherID -> random values)
+	* send voucher through e mail and assign the voucher to user 
+	* save and update member details. 
+
+API-2 (while placing an Order)
+-> ms-communication to fetch loyalty available points of the user .
+-> fetch the constant value of discount used from the loyalty points .
+-> apply the discount to the final price of order from the loyalty points .
+-> place the order and then send the order details to the kafka
+
+
+API - 3 (reward functionality)
+-> after user make successful purchase order amount will send to kafka with user details
+-> consume in loyalty and fetch engagement detais based on country details.
+-> Calculate the rewards to be awarded and update the user loyalty points.
+
+
+order service 
+-> while placing the order validate the voucher code and voucher validity date and apply if applicable
+
+user service 
+-> add country and DOB 
+
+loyaltyservice -
+-> API- 4 ( email creation)
+ fetch all users birthday of tmrw date and send email by assigning the birthday voucher .
+
+-> festival voucher to all members 
+
+

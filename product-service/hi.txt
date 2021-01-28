@@ -1,0 +1,17 @@
+book data ->
+
+{
+  "author": "Komala",
+  "description": "Half girlfriend",
+  "genre": "rom-com",
+  "licenseNum": "1423",
+  "manufactureDate": "15th sep",
+  "name": "book",
+  "price": 350.00,
+  "publishedDate": "2021-01-13",
+  "publisher": "NRK details",
+  "quantity": 2,
+  "returnwithin": "5thsep"
+}
+
+

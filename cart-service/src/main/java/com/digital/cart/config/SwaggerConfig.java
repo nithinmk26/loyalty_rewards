@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.digital.cart.config;
 
 import org.springframework.context.annotation.Bean;

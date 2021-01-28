@@ -5,14 +5,16 @@ import java.util.List;
 public class CartDto {
 	
 	private int cartId;
-	
-	private int userId;
+
+	private String userId;
+
 	
 	private String userName;	
 	
 	private List<ItemDto> itemList;
 
 	/**
+<<<<<<< HEAD
 	 * @return the cartId
 	 */
 	public int getCartId() {
@@ -25,26 +27,21 @@ public class CartDto {
 	public void setCartId(int cartId) {
 		this.cartId = cartId;
 	}
-
-	/**
-	 * @return the userId
-	 */
-	public int getUserId() {
-		return userId;
+	
+	public String getUserId() {
+	return userId;
 	}
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
+	
 	/**
 	 * @return the userName
 	 */
 	public String getUserName() {
 		return userName;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	/**
