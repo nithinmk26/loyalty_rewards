@@ -41,6 +41,8 @@ public class UserServiceImpl implements UserService{
 			userInfo.get().setUserPhoneNumber(userProfileUpdateDto.getUserPhoneNumber());
 			userInfo.get().setLastLoggedIn(userInfo.get().getLoggedInTime());
 			userInfo.get().setLoggedInTime(LocalDate.now());
+			userInfo.get().setCountry(userProfileUpdateDto.getCountry());
+			userInfo.get().setDateOfBirth(userProfileUpdateDto.getDateOfBirth());
 			userDao.updateUserProfile(userInfo.get());
 		}
 		else {
@@ -55,6 +57,8 @@ public class UserServiceImpl implements UserService{
 			newUser.setUserEmail(oAuth2User.getAttribute("email"));
 			newUser.setLastLoggedIn(null);
 			newUser.setLoggedInTime(LocalDate.now());
+			newUser.setCountry(userProfileUpdateDto.getCountry());
+			newUser.setDateOfBirth(userProfileUpdateDto.getDateOfBirth());
 			userDao.saveUser(newUser);
 		}
 		return "User Profile SuccessFully Updated...!";
