@@ -31,6 +31,12 @@ public class UserInformation {
 	@Column(name = "last_name")
 	private String lastName;
 	
+	@Column(name = "country")
+	private String country;
+	
+	@Column(name = "dob")
+	private LocalDate dateOfBirth;
+	
 	@Column(name = "user_address")
 	private String userAddress;
 	
@@ -184,6 +190,36 @@ public class UserInformation {
 		this.emailVarified = emailVarified;
 	}
 
+	/**
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	
+	
 	
 	
 	
