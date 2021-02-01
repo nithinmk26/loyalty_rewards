@@ -1,0 +1,15 @@
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('1', 'IN', 'user will recieve welcome vocher of 15%', '15', 'SIGNUP', '10');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('2', 'IN', 'user will get 20% offers on bday', '20', 'BIRTHDAY', '2');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('3', 'IN', 'user will recieve vochers for festive', '10', 'FESTIVE', '5');
+
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('4', 'US', 'user will recieve welcome vocher of 25%', '25', 'SIGNUP', '15');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('5', 'US', 'user will get 20% offers on bday', '10', 'BIRTHDAY', '1');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('6', 'US', 'user will recieve vochers for festive', '35', 'FESTIVE', '5');
+
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('7', 'UK', 'user will recieve welcome vocher of 10%', '10', 'SIGNUP', '10');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('8', 'UK', 'user will get 20% offers on bday', '20', 'BIRTHDAY', '2');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('9', 'UK', 'user will recieve vochers for festive', '10', 'FESTIVE', '5');
+
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('10', 'CN', 'user will recieve welcome vocher of 15%', '15', 'SIGNUP', '10');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('11', 'CN', 'user will get 20% offers on bday', '20', 'BIRTHDAY', '2');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_voucher` (`voucher_id`, `voucher_country`, `voucher_description`, `discount_in_percentage`, `engagement_name`, `voucher_validity`) VALUES ('12', 'CN', 'user will recieve vochers for festive', '10', 'FESTIVE', '5');

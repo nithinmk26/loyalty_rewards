@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class LoyaltyServiceImpl {
 	
-	static SecureRandom sec_random = new SecureRandom();
+	static SecureRandom secRandom = new SecureRandom();
 	
 	public static String vocherIdGenerator(String type) {
 		String vocherId = type;
@@ -15,13 +15,14 @@ public class LoyaltyServiceImpl {
 	}
 	
 	public static String memberIdGenerator(String name,LocalDate dob,String country) {
-		
-		String metaUserData = name + country + dob.getDayOfMonth();
+		int nameLength = name.length();
+		String nameLiteral = name.substring(0, nameLength-1);
+		String metaUserData =country + dob.getDayOfMonth();
 		StringBuilder memberId = new StringBuilder(10);
+		memberId.append(nameLiteral);
 		 for(int i = 0; i < 10; i++) {
-			 memberId.append(metaUserData.charAt(sec_random.nextInt(metaUserData.length())));
+			 memberId.append(metaUserData.charAt(secRandom.nextInt(metaUserData.length())));
 		 }
-		 
 		 return memberId.toString();
 		
 	}
