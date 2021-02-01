@@ -1,0 +1,4 @@
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_rewards` (`rewards_id`, `reward_country`, `reward_description`, `engagement_name`, `rewards_in_percentage`) VALUES ('1', 'IN', 'product_purchase', 'PURCHASE', '20');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_rewards` (`rewards_id`, `reward_country`, `reward_description`, `engagement_name`, `rewards_in_percentage`) VALUES ('2', 'UK', 'product_purchase', 'PURCHASE', '10');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_rewards` (`rewards_id`, `reward_country`, `reward_description`, `engagement_name`, `rewards_in_percentage`) VALUES ('3', 'US', 'product_purchase', 'PURCHASE', '35');
+INSERT INTO `loyalty_rewards_tiers`.`loyalty_rewards` (`rewards_id`, `reward_country`, `reward_description`, `engagement_name`, `rewards_in_percentage`) VALUES ('4', 'CN', 'product_purchase', 'PURCHASE', '40');
