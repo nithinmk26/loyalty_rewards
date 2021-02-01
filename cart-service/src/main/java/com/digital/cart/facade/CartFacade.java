@@ -30,7 +30,6 @@ public class CartFacade {
 	}
 
 	public String addToCart(CartDto cartDto) throws LoyaltyRewardsGlobalAppException {
-//		CartDetail cartDetail = modelMapper.map(cartDto, CartDetail.class);
 		CartDetail cartDetail = UtilityMethods.convertCartDtotoEntity(cartDto);
 		return cartService.addToCart(cartDetail);
  		

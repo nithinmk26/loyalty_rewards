@@ -2,7 +2,6 @@
 package com.digital.cart.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -14,8 +13,6 @@ import com.digital.cart.exception.CartFetchingException;
 import com.digital.cart.exception.CartPersistingException;
 import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.cart.exception.ProductProxyException;
-
-import feign.FeignException;
 
 /**
  * @author 
