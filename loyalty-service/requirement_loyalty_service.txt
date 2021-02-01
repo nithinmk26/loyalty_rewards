@@ -39,6 +39,33 @@ loyaltyservice -
 
 
 
+INDIA
+0-BEGINNER
+1-PLAYER
+2-PLAYMAKER
+3-MASTER
+
+US
+0-INITIATOR
+1-PRO
+2-PROMAKER
+3-GAMECHANGER
+
+MX
+0-starter
+1-basic
+2-professional
+3-premium
+
+CN
+0-bronze
+1-silver
+2-gold
+3-diamond
+
+
+
+
 
 MemberIdCreation
 System.out.println(RandomStringUtils.randomAlphanumeric(10).toUpperCase());
