@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.cart.dao.ICartDao;
-import com.digital.cart.dto.CartDto;
 import com.digital.cart.dto.CartResponseDto;
 import com.digital.cart.entity.CartDetail;
 import com.digital.cart.entity.Item;
