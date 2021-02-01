@@ -41,9 +41,15 @@ public class LoyaltyMember {
 	@Column(name = "loyalty_points")
 	private double loyaltyPoints;
 	
+	@Column(name = "date_of_birth")
+	private LocalDate dateOfBirth;
+	
 	@OneToOne
 	@JoinColumn(name = "tier_id")
 	private TierLevel tier;
+	
+	@Column(name = "country")
+	private String country;
 	
 	@CreationTimestamp
 	@Column(name = "created_date")
