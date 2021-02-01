@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.digital.cart.exception.CartFetchingException;
 import com.digital.cart.exception.CartPersistingException;
 import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.cart.exception.ProductProxyException;
 
 /**
  * @author 
@@ -45,6 +46,11 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 		response.put(err, true);
 		response.put(msg, e.getLocalizedMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ProductProxyException.class)
+	public ResponseEntity<String> loyaltyRewardsGlobalAppProxyExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
 	}
 	
 	

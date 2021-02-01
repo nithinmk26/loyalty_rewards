@@ -10,9 +10,11 @@ import com.digital.productservice.dto.BookDataDto;
 import com.digital.productservice.dto.ElectronicAppliancesDto;
 import com.digital.productservice.dto.HouseHoldItemDto;
 import com.digital.productservice.dto.ProductDetailsData;
+import com.digital.productservice.dto.model.ProductItemModel;
 import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.exception.ProductServicePersistingException;
+import com.digital.productservice.exception.ProductUnavailabilityException;
 import com.digital.productservice.service.IApparelDataService;
 import com.digital.productservice.service.IBookDataService;
 import com.digital.productservice.service.IElectronicApplianceService;
@@ -81,6 +83,11 @@ public class ProductFacade {
 	public ProductDetailsData fetchProductById(int productId) throws LoyaltyRewardsGlobalAppException {
 		return productService.fetchProductById(productId);
 	}
+
+	public Boolean getAllProductAvailability(List<ProductItemModel> productItemModel) throws LoyaltyRewardsGlobalAppException {
+		return productService.getAllProductAvailability(productItemModel);
+	}
+
 
 	
 

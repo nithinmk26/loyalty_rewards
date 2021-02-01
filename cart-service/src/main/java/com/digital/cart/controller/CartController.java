@@ -31,10 +31,10 @@ import io.swagger.annotations.ApiResponses;
 public class CartController {
 	
 	@Autowired
-	private CartFacade cartFacade;
+	private CartFacade cartFacade; 
 	
 	
-	@PostMapping("/add")
+	@PostMapping("/")
 	@ApiOperation(value = "Adding items Into The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
@@ -66,6 +66,7 @@ public class CartController {
 	public ResponseEntity<CartResponseDto> getCartByUserId(@PathVariable String userId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(cartFacade.getCartByUserId(userId),HttpStatus.OK);
 	}
+	
 	
 }
 

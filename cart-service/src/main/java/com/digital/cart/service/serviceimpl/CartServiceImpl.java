@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.cart.dao.ICartDao;
+import com.digital.cart.dto.CartResponseDto;
 import com.digital.cart.entity.CartDetail;
 import com.digital.cart.entity.Item;
 import com.digital.cart.exception.CartFetchingException;
 import com.digital.cart.exception.CartPersistingException;
 import com.digital.cart.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.cart.exception.ProductProxyException;
+import com.digital.cart.proxy.ProductServiceProxy;
 import com.digital.cart.service.ICartService;
+import com.digital.cart.utility.UtilityMethods;
+
+import feign.FeignException;
 
 /**
  * @author 	
@@ -23,8 +29,14 @@ public class CartServiceImpl implements ICartService{
 	@Autowired
 	private ICartDao cartDao;
 	
+	@Autowired
+	ProductServiceProxy productServiceProxy;
+	
 	@Override
 	public String addToCart(CartDetail cartDetail) throws LoyaltyRewardsGlobalAppException {
+		CartResponseDto cartDto = UtilityMethods.convertCartToDto(cartDetail);
+		try {
+			productServiceProxy.getAllProductAvailability(cartDto.getItemList());
 		Optional<CartDetail> existedCart = cartDao.getUsercartByUserId(cartDetail.getUserId());
 		if(!existedCart.isPresent()) {
 			cartDetail = calculationOfDeliveryAndCartValue(cartDetail);
@@ -36,6 +48,9 @@ public class CartServiceImpl implements ICartService{
 			CartDetail cartdetailobj = calculationOfDeliveryAndCartValue(existedCart.get());
 			cartDao.updateExistingCart(cartdetailobj);
 			return "Cart Details SuccessFully Updated in DB...!";
+		}
+		} catch (FeignException e) {
+			throw new ProductProxyException(e.contentUTF8());
 		}
 
 	} 
