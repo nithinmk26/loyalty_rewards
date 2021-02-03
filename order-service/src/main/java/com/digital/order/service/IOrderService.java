@@ -8,10 +8,10 @@ import com.digital.order.exception.LoyaltyRewardsGlobalAppException;
 
 public interface IOrderService {
 	
-	public String orderByCash(String userId) throws LoyaltyRewardsGlobalAppException ;
+	public String orderByCash(String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException ;
 	
-	 public String orderByCard(PaymentDto paymentDto , String userId) throws LoyaltyRewardsGlobalAppException ;
+	 public String orderByCard(PaymentDto paymentDto , String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException ;
 	
-	 public String orderByUpi(UpiPaymentDto upiPaymentDto , String userId) throws LoyaltyRewardsGlobalAppException ;
+	 public String orderByUpi(UpiPaymentDto upiPaymentDto , String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException ;
 
 }

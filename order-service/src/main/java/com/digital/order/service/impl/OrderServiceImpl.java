@@ -1,6 +1,7 @@
 package com.digital.order.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private LoyaltyProxy loyaltyProxy;
 
+	@Value("${loyalty.rewards.discount}")
+	private int loyaltyRewardsGlobalDiscounts;
+
 	@Override
-	public String orderByCash(String userId) throws OrderPersistanceException   {
+	public String orderByCash(String userId , String voucherCode) throws OrderPersistanceException   {
 		try{
 			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
 		
@@ -44,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
 	  return "added successfully";
 	}
 	
-	public String orderByCard(PaymentDto paymentDto , String userId) throws OrderPersistanceException 
+	public String orderByCard(PaymentDto paymentDto , String userId , String voucherCode) throws OrderPersistanceException 
 	{
 		String value = "" ;
 		try{
@@ -71,7 +75,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public String orderByUpi(UpiPaymentDto upiPaymentDto , String userId) throws OrderPersistanceException   {
+	public String orderByUpi(UpiPaymentDto upiPaymentDto , String userId , String voucherCode) throws OrderPersistanceException   {
 		String value = "" ;
 		try{int numberOfDigits = String.valueOf(upiPaymentDto.getPhonenumber()).length();
 		if(numberOfDigits == 10)
@@ -91,13 +95,15 @@ public class OrderServiceImpl implements IOrderService {
 		}
 	}
 	
-	public String fetchUserLoyaltyPoints(String userId)
+	public double fetchUserLoyaltyPoints(String userId)
 	{
-		
-		return null;
-		
+		return  loyaltyProxy.fetchUserLoyaltyPoints(userId);
 	}
 	
+	public boolean checkVoucherValidity(String voucherCode , String userId)
+	{
+		return loyaltyProxy.checkVoucherValidity( userId , voucherCode);
+	}
 	
 	
 	

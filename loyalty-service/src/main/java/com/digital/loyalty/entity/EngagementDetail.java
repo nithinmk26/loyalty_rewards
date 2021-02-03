@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class EngagementDetail {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "engagement_id")
 	private int id;
 	
@@ -38,69 +38,81 @@ public class EngagementDetail {
 	
 	@Column(name = "assigned_date")
     private LocalDate assignedDate ;
-
+	
+	//make it bidirectioanal and dleete expired vocher from user
+	
+	
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public EngagementDetail setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public EngagementDetail setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public String getEngagementName() {
 		return engagementName;
 	}
 
-	public void setEngagementName(String engagementName) {
+	public EngagementDetail setEngagementName(String engagementName) {
 		this.engagementName = engagementName;
+		return this;
 	}
 
 	public String getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public EngagementDetail setCountry(String country) {
 		this.country = country;
+		return this;
 	}
 
 	public String getVoucherCode() {
 		return voucherCode;
 	}
 
-	public void setVoucherCode(String voucherCode) {
+	public EngagementDetail setVoucherCode(String voucherCode) {
 		this.voucherCode = voucherCode;
+		return this;
 	}
 
 	public LocalDate getVoucherValidity() {
 		return voucherValidity;
 	}
 
-	public void setVoucherValidity(LocalDate voucherValidity) {
+
+	public EngagementDetail setVoucherValidity(LocalDate voucherValidity) {
 		this.voucherValidity = voucherValidity;
+		return this;
 	}
 
 	public int getDiscountInPercent() {
 		return discountInPercent;
 	}
 
-	public void setDiscountInPercent(int discountInPercent) {
+	public EngagementDetail setDiscountInPercent(int discountInPercent) {
 		this.discountInPercent = discountInPercent;
+		return this;
 	}
 
 	public LocalDate getAssignedDate() {
 		return assignedDate;
 	}
 
-	public void setAssignedDate(LocalDate assignedDate) {
+	public EngagementDetail setAssignedDate(LocalDate assignedDate) {
 		this.assignedDate = assignedDate;
+		return this;
 	}
 
 	public EngagementDetail(int id, String description, String engagementName, String country, String voucherCode,
@@ -118,7 +130,6 @@ public class EngagementDetail {
 
 	public EngagementDetail() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	
