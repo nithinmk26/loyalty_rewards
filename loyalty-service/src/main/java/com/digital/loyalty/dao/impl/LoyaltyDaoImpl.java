@@ -1,5 +1,6 @@
 package com.digital.loyalty.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,18 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 
 	@Override
 	public LoyaltyMember persistMember(LoyaltyMember loyaltyMember) {
-		return loyaltyRepository.save(loyaltyMember);
+		return loyaltyRepository.saveAndFlush(loyaltyMember);
+	}
+
+	@Override
+	public Optional<List<LoyaltyMember>> fetchBirthdayCelebrators(String dateRegex) {
+		return loyaltyRepository.findAllByDateOfBirth(dateRegex);
+	}
+
+	@Override
+	public double fetchLoyaltyPointsforUser(String userId) {
+		return loyaltyRepository.findByUserLoyaltyPoint(userId);
+		 
 	}
 
 }

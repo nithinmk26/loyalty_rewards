@@ -1,5 +1,7 @@
 package com.digital.loyalty.dao;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import com.digital.loyalty.entity.LoyaltyMember;
@@ -15,6 +17,10 @@ public interface ILoyaltyDao {
 	Optional<LoyaltyVoucher> fetchLoyaltyVocher(String string, String country);
 
 	LoyaltyMember persistMember(LoyaltyMember loyaltyMember);
+
+	Optional<List<LoyaltyMember>> fetchBirthdayCelebrators(String dateRegex);
+
+	double fetchLoyaltyPointsforUser(String userId);
 
 
 }
