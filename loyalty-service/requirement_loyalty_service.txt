@@ -1,4 +1,4 @@
-work flow 
+x	work flow 
 API-1(member Creation)
 user service 
 -> user created and updated profile 
@@ -40,10 +40,10 @@ loyaltyservice -
 
 
 INDIA
-0-BEGINNER
-1-PLAYER
-2-PLAYMAKER
-3-MASTER
+0-BEGINNER (0,999)
+1-PLAYER(1000,3999)
+2-PLAYMAKER(4000,9999)
+3-MASTER(10000)
 
 US
 0-INITIATOR
@@ -90,3 +90,46 @@ public static String generateString() {
         String uuid = UUID.randomUUID().toString();
         return "uuid = " + uuid;
     }
+
+
+
+
+https://stackoverflow.com/questions/23008529/send-html-page-as-email-in-java
+
+
+public static void main(String[] args) throws Exception {
+		emailGenerator("nithinmk26@gmail.com", "Hello nithin");
+		System.out.println("Mail Sent Successfully!!!!!!!!!!!!!!!!!");
+	}
+
+	public static void emailGenerator(String email, String message) throws MessagingException, Exception, IOException {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("komala.thagadaiah@gmail.com", "Bunny77!!");
+			}
+		});
+		Message msg = new MimeMessage(session);
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+		msg.setSubject("Your Account Creation  Status");
+		msg.setSentDate(new Date());
+
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(new FileInputStream(new File("C:/poc_Loyalty/loyalty_rewards/user-service/src/main/resources/templates/mailTemplate.html")), writer);
+
+		
+		messageBodyPart.setContent(writer.toString(), "text/html");
+
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+		MimeBodyPart attachPart = new MimeBodyPart();
+		msg.setContent(multipart);
+		Transport.send(msg);
+	}
+

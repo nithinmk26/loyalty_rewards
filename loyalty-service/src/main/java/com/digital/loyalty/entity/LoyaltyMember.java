@@ -3,8 +3,10 @@ package com.digital.loyalty.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class LoyaltyMember {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_id")
 	private int serialId;
 	
@@ -59,7 +61,7 @@ public class LoyaltyMember {
 	@Column(name = "updated_date")
 	private LocalDate modifiedDate;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	 @JoinTable(name = "loyalty_member_engagements", 
      joinColumns = { @JoinColumn(name = "serial_id") }, 
      inverseJoinColumns = { @JoinColumn(name = "engagement_id") })
@@ -69,101 +71,131 @@ public class LoyaltyMember {
 		return serialId;
 	}
 
-	public void setSerialId(int serialId) {
+	public LoyaltyMember setSerialId(int serialId) {
 		this.serialId = serialId;
+		return this;
 	}
 
 	public String getMemberId() {
 		return memberId;
 	}
 
-	public void setMemberId(String memberId) {
+	public LoyaltyMember setMemberId(String memberId) {
 		this.memberId = memberId;
+		return this;
 	}
 
 	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public LoyaltyMember setUserId(String userId) {
 		this.userId = userId;
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public LoyaltyMember setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public LoyaltyMember setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
 	public double getLoyaltyPoints() {
 		return loyaltyPoints;
 	}
 
-	public void setLoyaltyPoints(double loyaltyPoints) {
+	public LoyaltyMember setLoyaltyPoints(double loyaltyPoints) {
 		this.loyaltyPoints = loyaltyPoints;
+		return this;
 	}
 
 	public TierLevel getTier() {
 		return tier;
 	}
 
-	public void setTier(TierLevel tier) {
+	public LoyaltyMember setTier(TierLevel tier) {
 		this.tier = tier;
+		return this;
 	}
 
 	public LocalDate getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public LoyaltyMember setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
+		return this;
 	}
 
 	public LocalDate getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(LocalDate modifiedDate) {
+	public LoyaltyMember setModifiedDate(LocalDate modifiedDate) {
 		this.modifiedDate = modifiedDate;
+		return this;
+	}	
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public List<EngagementDetail> getEngagementDetails() {
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public LoyaltyMember setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+		return this;
+	}
+
+	/**
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public LoyaltyMember setCountry(String country) {
+		this.country = country;
+		return this;
+	}
+
+	/**
+	 * @return the engagementDetail
+	 */
+	public List<EngagementDetail> getEngagementDetail() {
 		return engagementDetail;
 	}
 
-	public void setEngagementDetails(List<EngagementDetail> engagementDetail) {
+	/** 
+	 * @param engagementDetail the engagementDetail to set
+	 */
+	public LoyaltyMember setEngagementDetail(List<EngagementDetail> engagementDetail) {
 		this.engagementDetail = engagementDetail;
+		return this;
 	}
 
-	public LoyaltyMember(int serialId, String memberId, String userId, String name, String email, double loyaltyPoints,
-			TierLevel tier, LocalDate createdDate, LocalDate modifiedDate, List<EngagementDetail> engagementDetail) {
-		super();
-		this.serialId = serialId;
-		this.memberId = memberId;
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.loyaltyPoints = loyaltyPoints;
-		this.tier = tier;
-		this.createdDate = createdDate;
-		this.modifiedDate = modifiedDate;
-		this.engagementDetail = engagementDetail;
-	}
 
-	public LoyaltyMember() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
+	
 	
 
 }
