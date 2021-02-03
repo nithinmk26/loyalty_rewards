@@ -13,6 +13,7 @@ import com.digital.order.entity.Order.paymentmode;
 import com.digital.order.exception.OrderPaymentException;
 import com.digital.order.exception.OrderPersistanceException;
 import com.digital.order.proxy.CartProxy;
+import com.digital.order.proxy.LoyaltyProxy;
 import com.digital.order.service.IOrderService;
 import com.digital.order.utilitymethods.UtilityMethods;
 
@@ -24,6 +25,9 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Autowired
 	private CartProxy cartProxy;
+	
+	@Autowired
+	private LoyaltyProxy loyaltyProxy;
 
 	@Override
 	public String orderByCash(String userId) throws OrderPersistanceException   {
@@ -86,4 +90,18 @@ public class OrderServiceImpl implements IOrderService {
 		throw new OrderPersistanceException("Order Couldnt be placed , Try again !!!");
 		}
 	}
+	
+	public String fetchUserLoyaltyPoints(String userId)
+	{
+		
+		return null;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 }

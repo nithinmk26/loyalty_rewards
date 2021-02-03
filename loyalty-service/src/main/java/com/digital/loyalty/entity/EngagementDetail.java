@@ -31,7 +31,7 @@ public class EngagementDetail {
     private String voucherCode;
 	
 	@Column(name = "voucher_validity")
-    private String voucherValidity;
+    private LocalDate voucherValidity;
 	
 	@Column(name = "discount_in_percentage")
     private int discountInPercent;
@@ -79,11 +79,11 @@ public class EngagementDetail {
 		this.voucherCode = voucherCode;
 	}
 
-	public String getVoucherValidity() {
+	public LocalDate getVoucherValidity() {
 		return voucherValidity;
 	}
 
-	public void setVoucherValidity(String voucherValidity) {
+	public void setVoucherValidity(LocalDate voucherValidity) {
 		this.voucherValidity = voucherValidity;
 	}
 
@@ -104,7 +104,7 @@ public class EngagementDetail {
 	}
 
 	public EngagementDetail(int id, String description, String engagementName, String country, String voucherCode,
-			String voucherValidity, int discountInPercent, LocalDate assignedDate) {
+			LocalDate voucherValidity, int discountInPercent, LocalDate assignedDate) {
 		super();
 		this.id = id;
 		this.description = description;
