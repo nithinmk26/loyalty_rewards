@@ -22,5 +22,7 @@ public interface ILoyaltyDao {
 
 	double fetchLoyaltyPointsforUser(String userId);
 
+	LoyaltyMember validateVocherCode(String vocherCode);
+
 
 }
