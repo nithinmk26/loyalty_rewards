@@ -9,8 +9,10 @@ import com.digital.order.dao.OrderDao;
 import com.digital.order.dto.CartResponseDto;
 import com.digital.order.dto.PaymentDto;
 import com.digital.order.dto.UpiPaymentDto;
+import com.digital.order.dto.VoucherUserDto;
 import com.digital.order.entity.Order;
 import com.digital.order.entity.Order.paymentmode;
+import com.digital.order.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.order.exception.OrderPaymentException;
 import com.digital.order.exception.OrderPersistanceException;
 import com.digital.order.proxy.CartProxy;
@@ -30,23 +32,36 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private LoyaltyProxy loyaltyProxy;
 
-	@Value("${loyalty.rewards.discount}")
-	private int loyaltyRewardsGlobalDiscounts;
+	@Value("${loyalty.utilization.discount}")
+	private int loyaltyRewardsUtilizationDiscounts;
 
 	@Override
 	public String orderByCash(String userId , String voucherCode) throws OrderPersistanceException   {
 		try{
 			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
-		boolean value = checkVoucherValidity(voucherCode, userId);
-		if(value) {
-			//fetch voucher details while validation of voucherCode 
+		int voucherDiscountPercentage = checkVoucherValidityAndFetchVoucher(voucherCode, userId);
 			//get voucher discount and apply to order price 
-			
-		double loyaltypoints = fetchUserLoyaltyPoints(userId);
+		VoucherUserDto voucherUserDto = new VoucherUserDto();
+		voucherUserDto.setUserId(userId);
+		voucherUserDto.setVoucherCode(voucherCode);
+		double availableLoyaltypoints = fetchUserLoyaltyPoints(userId);
 		Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
+		orderDetail.setTotalPrice(orderDetail.getTotalPrice()-((voucherDiscountPercentage*orderDetail.getTotalPrice())/100));
+		double loyaltyUtilizablePoints = (loyaltyRewardsUtilizationDiscounts*orderDetail.getTotalPrice())/100;
+		if(availableLoyaltypoints < loyaltyUtilizablePoints)
+		{
+		orderDetail.setTotalPrice(orderDetail.getTotalPrice() - availableLoyaltypoints);
+		voucherUserDto.setUtilizedLoyaltyPoints(availableLoyaltypoints);
+		}
+		else {
+		orderDetail.setTotalPrice(orderDetail.getTotalPrice() - loyaltyUtilizablePoints);
+		voucherUserDto.setUtilizedLoyaltyPoints(loyaltyUtilizablePoints);
+		}
 		orderDetail.setPaymentMode(paymentmode.CASH);
+		voucherUserDto.setOrderAmount(orderDetail.getTotalPrice());
 		  Order order= orderDao.addToOrder(orderDetail);
-		}}catch(Exception e)
+		 //send the voucherUserDto to the kafka 
+		}catch(Exception e)
 		{
 			throw new OrderPersistanceException("Couldnt order the product !! Try again ...");
 		}
@@ -64,6 +79,7 @@ public class OrderServiceImpl implements IOrderService {
 		{
 			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
 			Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
+			
 			orderDetail.setPaymentMode(paymentmode.CARD);
 			 Order order= orderDao.addToOrder(orderDetail);
 				value = "Order placed succesfully";
@@ -105,7 +121,7 @@ public class OrderServiceImpl implements IOrderService {
 		return  loyaltyProxy.fetchUserLoyaltyPoints(userId).getBody();
 	}
 	
-	public  fetchVoucher(String voucherCode , String userId)
+	public  int checkVoucherValidityAndFetchVoucher(String voucherCode , String userId) throws LoyaltyRewardsGlobalAppException
 	{
 		return loyaltyProxy.validateVocherCode(userId , voucherCode).getBody();
 	}

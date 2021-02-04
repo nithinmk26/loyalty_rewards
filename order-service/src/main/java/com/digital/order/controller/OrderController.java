@@ -30,7 +30,7 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> OrderByCash(@PathVariable String userId , @PathVariable String voucherCode) throws LoyaltyRewardsGlobalAppException{
-		return new ResponseEntity<>(orderFacade.orderByCash(userId),HttpStatus.OK);
+		return new ResponseEntity<>(orderFacade.orderByCash(userId , voucherCode),HttpStatus.OK);
 	}
 	
 	@PostMapping("/{userId}/{voucherCode}")
@@ -38,7 +38,7 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> checkpayment(@RequestBody PaymentDto paymentDto , @PathVariable String userId , @PathVariable String voucherCode) throws LoyaltyRewardsGlobalAppException {
-		return new ResponseEntity<>(orderFacade.orderByCard(paymentDto , userId),HttpStatus.OK);
+		return new ResponseEntity<>(orderFacade.orderByCard(paymentDto , userId , voucherCode),HttpStatus.OK);
 	}
 	
 	@PostMapping("/{userId}/{voucherCode}")
@@ -46,7 +46,7 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<String> checkpayment(@RequestBody UpiPaymentDto upiPayment , @PathVariable String userId , @PathVariable String voucherCode) throws LoyaltyRewardsGlobalAppException {
-		return new ResponseEntity<>(orderFacade.orderByUpi(upiPayment , userId), HttpStatus.OK);
+		return new ResponseEntity<>(orderFacade.orderByUpi(upiPayment , userId , voucherCode), HttpStatus.OK);
 	}
 	
 	
