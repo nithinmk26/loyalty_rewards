@@ -10,4 +10,6 @@ public interface ILoyaltyService {
 
 	double fetchUserLoyaltyPoints(String userId);
 
+	boolean validateVocherCode(String userId,String vocherCode);
+
 }

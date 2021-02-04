@@ -35,6 +35,11 @@ public class LoyaltyController {
 		return new ResponseEntity<>(loyaltyService.fetchUserLoyaltyPoints(userId),HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/{userId}/{vocherCode}")
+	public ResponseEntity<Boolean> validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode) {
+		return new ResponseEntity<>(loyaltyService.validateVocherCode(userId,vocherCode),HttpStatus.OK);
+	}
 
 
 	

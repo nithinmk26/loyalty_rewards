@@ -37,11 +37,16 @@ public class OrderServiceImpl implements IOrderService {
 	public String orderByCash(String userId , String voucherCode) throws OrderPersistanceException   {
 		try{
 			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
-		
+		boolean value = checkVoucherValidity(voucherCode, userId);
+		if(value) {
+			//fetch voucher details while validation of voucherCode 
+			//get voucher discount and apply to order price 
+			
+		double loyaltypoints = fetchUserLoyaltyPoints(userId);
 		Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
 		orderDetail.setPaymentMode(paymentmode.CASH);
 		  Order order= orderDao.addToOrder(orderDetail);
-		}catch(Exception e)
+		}}catch(Exception e)
 		{
 			throw new OrderPersistanceException("Couldnt order the product !! Try again ...");
 		}
@@ -97,16 +102,16 @@ public class OrderServiceImpl implements IOrderService {
 	
 	public double fetchUserLoyaltyPoints(String userId)
 	{
-		return  loyaltyProxy.fetchUserLoyaltyPoints(userId);
+		return  loyaltyProxy.fetchUserLoyaltyPoints(userId).getBody();
 	}
 	
-	public boolean checkVoucherValidity(String voucherCode , String userId)
+	public boolean fetchVoucher(String voucherCode , String userId)
 	{
-		return loyaltyProxy.checkVoucherValidity( userId , voucherCode);
+		return loyaltyProxy.validateVocherCode(userId , voucherCode).getBody();
 	}
 	
 	
-	
+
 	
 	
 	

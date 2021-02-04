@@ -1,6 +1,8 @@
 package com.digital.order.proxy;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -8,10 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface LoyaltyProxy {
 	
 	@GetMapping("/{userId}")
-    public double fetchUserLoyaltyPoints(@PathVariable String userId);
+	public ResponseEntity<Double> fetchUserLoyaltyPoints(@PathVariable String userId);
 	
-	@GetMapping("/{userId}/{vouchercode}")
-	public boolean checkVoucherValidity(@PathVariable String userId , @PathVariable String voucherCode);
-	
+	@GetMapping("/{userId}/{vocherCode}")
+	public ResponseEntity<Boolean> validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode);
 
 }

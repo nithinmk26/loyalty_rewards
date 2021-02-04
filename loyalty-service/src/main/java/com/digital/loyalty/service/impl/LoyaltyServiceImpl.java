@@ -172,5 +172,17 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	public double fetchUserLoyaltyPoints(String userId) {
 		return loyaltyDao.fetchLoyaltyPointsforUser(userId);
 	}
+
+	@Override
+	public boolean validateVocherCode(String userId, String vocherCode) {
+		LoyaltyMember loyaltyMember =  loyaltyDao.validateVocherCode(userId);
+		for (EngagementDetail vocher : loyaltyMember.getEngagementDetail()) {
+			if(vocher.getVoucherCode().equals(vocherCode) && vocher.getVoucherValidity().isAfter(LocalDate.now())) {
+					return true;
+			}
+		}
+		return false;
+		
+	}
 	
 }

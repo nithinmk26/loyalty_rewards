@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.loyalty.dao.ILoyaltyDao;
+import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.entity.TierLevel;
@@ -56,6 +57,12 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	public double fetchLoyaltyPointsforUser(String userId) {
 		return loyaltyRepository.findByUserLoyaltyPoint(userId);
 		 
+	}
+
+	@Override
+	public LoyaltyMember validateVocherCode(String userId) {
+		Optional<LoyaltyMember> loyaltyMember = loyaltyRepository.findByUserId(userId);
+		return loyaltyMember.get();
 	}
 
 }

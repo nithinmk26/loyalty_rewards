@@ -21,4 +21,7 @@ public interface ILoyaltyDao {
 	Optional<List<LoyaltyMember>> fetchBirthdayCelebrators(String dateRegex);
 
 	double fetchLoyaltyPointsforUser(String userId);
+
+	LoyaltyMember validateVocherCode(String vocherCode);
+
 }
