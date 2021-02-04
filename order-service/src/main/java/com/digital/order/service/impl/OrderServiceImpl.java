@@ -105,7 +105,7 @@ public class OrderServiceImpl implements IOrderService {
 		return  loyaltyProxy.fetchUserLoyaltyPoints(userId).getBody();
 	}
 	
-	public boolean fetchVoucher(String voucherCode , String userId)
+	public  fetchVoucher(String voucherCode , String userId)
 	{
 		return loyaltyProxy.validateVocherCode(userId , voucherCode).getBody();
 	}

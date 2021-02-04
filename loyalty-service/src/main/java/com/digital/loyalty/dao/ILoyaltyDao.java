@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.digital.loyalty.entity.LoyaltyMember;
+import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.entity.TierLevel;
 
 public interface ILoyaltyDao {
 
-	Optional<LoyaltyMember> checkExistingMembers(String userId);
+	Optional<LoyaltyMember> fetchExistingMembers(String userId);
 
 	Optional<TierLevel> fetchTierBasedOnCountry(String country);
 	
@@ -24,4 +25,12 @@ public interface ILoyaltyDao {
 
 	LoyaltyMember validateVocherCode(String vocherCode);
 
+<<<<<<< HEAD
+=======
+	Optional<LoyaltyRewards> fetchLoyaltyRewards(String country);
+
+	void persistVoucher(LoyaltyVoucher loyaltyVoucher);
+
+
+>>>>>>> 92403391d3e06372ba07e902f07071c4daa6caab
 }

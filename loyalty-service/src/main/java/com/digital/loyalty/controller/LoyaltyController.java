@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.digital.loyalty.dto.request.OrderDetails;
 import com.digital.loyalty.dto.request.UserProfileDto;
+import com.digital.loyalty.entity.LoyaltyVoucher;
+import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.loyalty.service.ILoyaltyService;
 
 @RestController
@@ -37,11 +40,19 @@ public class LoyaltyController {
 	}
 	
 	@GetMapping("/{userId}/{vocherCode}")
-	public ResponseEntity<Boolean> validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode) {
-		return new ResponseEntity<>(loyaltyService.validateVocherCode(userId,vocherCode),HttpStatus.OK);
+	public ResponseEntity<Integer> validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode) throws LoyaltyRewardsGlobalAppException {
+		return new ResponseEntity<>(loyaltyService.validateVocherCodeAndFetchDiscountValue(userId,vocherCode),HttpStatus.OK);
 	}
 
-
+	@PostMapping("/")
+	public void loyaltyRewards(@RequestBody OrderDetails order) {
+		loyaltyService.loyaltyRewards(order);
+	}
+	
+	@PostMapping("/vocher")
+	public ResponseEntity<String> addFestiveVocher(@RequestBody LoyaltyVoucher loyaltyVoucher) {
+		return new ResponseEntity<>(loyaltyService.addFestiveVoucher(loyaltyVoucher),HttpStatus.CREATED);
+	}
 	
 	
 }
