@@ -1,6 +1,9 @@
 package com.digital.loyalty.service;
 
+import com.digital.loyalty.dto.request.OrderDetails;
 import com.digital.loyalty.dto.request.UserProfileDto;
+import com.digital.loyalty.entity.LoyaltyVoucher;
+import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
 
 public interface ILoyaltyService {
 
@@ -10,6 +13,10 @@ public interface ILoyaltyService {
 
 	double fetchUserLoyaltyPoints(String userId);
 
-	boolean validateVocherCode(String userId,String vocherCode);
+	int validateVocherCodeAndFetchDiscountValue(String userId,String vocherCode) throws LoyaltyRewardsGlobalAppException;
+
+	void loyaltyRewards(OrderDetails order);
+
+	String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher);
 
 }

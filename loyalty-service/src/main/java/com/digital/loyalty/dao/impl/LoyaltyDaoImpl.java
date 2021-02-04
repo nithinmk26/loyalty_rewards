@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.digital.loyalty.dao.ILoyaltyDao;
 import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
+import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.entity.TierLevel;
 import com.digital.loyalty.repository.LoyaltyRepository;
+import com.digital.loyalty.repository.LoyaltyRewardsRepository;
 import com.digital.loyalty.repository.LoyaltyVocherRepository;
 import com.digital.loyalty.repository.TierRepository;
 
@@ -27,8 +29,11 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	@Autowired
 	private LoyaltyVocherRepository loyaltyVocherRepository;
 	
+	@Autowired
+	private LoyaltyRewardsRepository loyaltyRewardsRepository;
+	
 	@Override
-	public Optional<LoyaltyMember> checkExistingMembers(String userId) {
+	public Optional<LoyaltyMember> fetchExistingMembers(String userId) {
 		return loyaltyRepository.findByUserId(userId);
 		
 	}
@@ -63,6 +68,16 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	public LoyaltyMember validateVocherCode(String userId) {
 		Optional<LoyaltyMember> loyaltyMember = loyaltyRepository.findByUserId(userId);
 		return loyaltyMember.get();
+	}
+
+	@Override
+	public Optional<LoyaltyRewards> fetchLoyaltyRewards(String country) {
+		return loyaltyRewardsRepository.findByCountry(country);
+	}
+
+	@Override
+	public void persistVoucher(LoyaltyVoucher loyaltyVoucher) {
+		loyaltyVocherRepository.saveAndFlush(loyaltyVoucher);
 	}
 
 }

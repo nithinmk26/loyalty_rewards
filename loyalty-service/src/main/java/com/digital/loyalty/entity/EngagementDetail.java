@@ -42,6 +42,9 @@ public class EngagementDetail {
 	@Column(name = "assigned_date")
     private LocalDate assignedDate ;
 	
+	@Column(name = "isapplied")
+	private boolean isApplied;
+	
 	//make it bidirectioanal and dleete expired vocher from user
 	
 	
@@ -116,9 +119,27 @@ public class EngagementDetail {
 		this.assignedDate = assignedDate;
 		return this;
 	}
+	
+
+	/**
+	 * @return the isApplied
+	 */
+	public boolean isApplied() {
+		return isApplied;
+	}
+
+	/**
+	 * @param isApplied the isApplied to set
+	 */
+	public EngagementDetail setApplied(boolean isApplied) {
+		this.isApplied = isApplied;
+		return this;
+	}
+
+	
 
 	public EngagementDetail(int id, String description, String engagementName, String country, String voucherCode,
-			LocalDate voucherValidity, int discountInPercent, LocalDate assignedDate) {
+			LocalDate voucherValidity, int discountInPercent, LocalDate assignedDate, boolean isApplied) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -128,6 +149,7 @@ public class EngagementDetail {
 		this.voucherValidity = voucherValidity;
 		this.discountInPercent = discountInPercent;
 		this.assignedDate = assignedDate;
+		this.isApplied = isApplied;
 	}
 
 	public EngagementDetail() {

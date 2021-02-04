@@ -18,11 +18,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.digital.loyalty.dao.ILoyaltyDao;
+import com.digital.loyalty.dto.request.OrderDetails;
 import com.digital.loyalty.dto.request.UserProfileDto;
 import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
+import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.entity.TierLevel;
+import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
+import com.digital.loyalty.exception.VocherAlreadyUtilizedException;
+import com.digital.loyalty.exception.VocherInvalidException;
 import com.digital.loyalty.service.ILoyaltyService;
 import com.digital.loyalty.util.MailGenenerator;
 
@@ -41,6 +46,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	
 	private static final String SIGNUPENGAGEMENT = "SIGNUP";
 	
+	private static final String FESTIVEENGAGEMENT = "FEST";
 	
 	public static String vocherIdGenerator(String type) {
 		String vocherId = type;
@@ -62,7 +68,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 
 	@Override
 	public String loyaltyMemberCreation(UserProfileDto userProfileDto) throws Exception {
-		Optional<LoyaltyMember> loyaltyMemberFetched = loyaltyDao.checkExistingMembers(userProfileDto.getUserId());
+		Optional<LoyaltyMember> loyaltyMemberFetched = loyaltyDao.fetchExistingMembers(userProfileDto.getUserId());
 		Set<EngagementDetail> engagementList = new HashSet<>();
 		if(!loyaltyMemberFetched.isPresent()) {
 			String memberId = memberIdGenerator(userProfileDto.getUserName(), userProfileDto.getDateOfBirth(), userProfileDto.getCountry());
@@ -161,7 +167,8 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 				.setDescription(vocherFetched.get().getDescription())
 				.setDiscountInPercent(vocherFetched.get().getDiscountInPercent())
 				.setEngagementName(vocherFetched.get().getEngagementName())
-				.setVoucherCode(vocherIdGenerator(engagement));
+				.setVoucherCode(vocherIdGenerator(engagement))
+				.setApplied(false);
 		engementDetail.setVoucherValidity(engementDetail.getAssignedDate().plus(vocherFetched.get().getVoucherValidity(), ChronoUnit.DAYS));
 		engagementList.add(engementDetail);
 		loyaltyMember.setLoyaltyPoints((double)initialLoyaltyPoints);
@@ -175,15 +182,60 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	}
 
 	@Override
-	public boolean validateVocherCode(String userId, String vocherCode) {
+	public int validateVocherCodeAndFetchDiscountValue(String userId, String vocherCode) throws LoyaltyRewardsGlobalAppException {
 		LoyaltyMember loyaltyMember =  loyaltyDao.validateVocherCode(userId);
 		for (EngagementDetail vocher : loyaltyMember.getEngagementDetail()) {
-			if(vocher.getVoucherCode().equals(vocherCode) && vocher.getVoucherValidity().isAfter(LocalDate.now())) {
-					return true;
+			if(vocher.getVoucherCode().equals(vocherCode) && vocher.getVoucherValidity().isAfter(LocalDate.now())) {	
+				if(vocher.isApplied()) {
+					throw new VocherAlreadyUtilizedException("Vocher has been already used...try with diffrent vocher..!");
+				}
+				return vocher.getDiscountInPercent();
+			}
+			else
+				throw new VocherInvalidException("Vocher code is INVALID or EXPIRED...!");
+		}
+		return 0;
+		
+	}
+	
+	
+	/**
+	 * @param userId
+	 * @param vocherCode
+	 * 
+	 * @implNote updates vocher after being used have to initalized by kafka topic
+	 */
+	public void updateUtilizedVocher(String userId,String vocherCode) {
+		LoyaltyMember loyaltyMember = loyaltyDao.fetchExistingMembers(userId).get();
+		for (EngagementDetail vocher : loyaltyMember.getEngagementDetail()) {
+			if(vocher.getVoucherCode().equals(vocherCode)) {
+				vocher.setApplied(true);
 			}
 		}
-		return false;
-		
+		loyaltyDao.persistMember(loyaltyMember);
+
+	}
+
+	/**
+	 *@implNote initialized by kafka topic 
+	 *once order placed successfully rewards have to be calculated and updated onto loyalty member rewards in user
+	 */
+	@Override
+	public void loyaltyRewards(OrderDetails order) {
+		Optional<LoyaltyMember> loyaltyMember = loyaltyDao.fetchExistingMembers(order.getUserId());
+		Optional<LoyaltyRewards> loyaltyRewards = loyaltyDao.fetchLoyaltyRewards(loyaltyMember.get().getCountry());
+		int rewardsPercent = loyaltyRewards.get().getRewardsInPercent();
+		double totalRewardPoints = (rewardsPercent * order.getOrderAmount())/100;
+		loyaltyMember.get().setLoyaltyPoints(loyaltyMember.get().getLoyaltyPoints() + totalRewardPoints);
+		//update tier based on total loyalty points
+		loyaltyDao.persistMember(loyaltyMember.get());
+	}
+
+	@Override
+	public String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher) {
+		loyaltyDao.persistVoucher(loyaltyVoucher);
+		//send vocher data to kafka to assign to all users
+		return null;
 	}
 	
 }
