@@ -12,7 +12,7 @@ public class UserProfileDto {
 	
 	private String country;
 	
-	private LocalDate dateOfBirth;
+	private String dateOfBirth;
 
 	/**
 	 * @return the userId
@@ -73,14 +73,14 @@ public class UserProfileDto {
 	/**
 	 * @return the dateOfBirth
 	 */
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
 	/**
 	 * @param dateOfBirth the dateOfBirth to set
 	 */
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	

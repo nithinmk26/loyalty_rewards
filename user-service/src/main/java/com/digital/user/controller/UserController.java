@@ -40,7 +40,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/")
+	@GetMapping("/") 
 	@ApiOperation(value = "Varify user Profile....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})

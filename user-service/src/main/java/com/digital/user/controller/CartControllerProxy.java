@@ -33,7 +33,7 @@ public class CartControllerProxy {
 	@Autowired
 	private UserFacade userFacade;
 	
-	@PostMapping("/")
+	@PostMapping("/cart/")
 	@ApiOperation(value = "Add to cart ....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added items to the cart"),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
@@ -41,7 +41,7 @@ public class CartControllerProxy {
 		return new ResponseEntity<>(userFacade.addToCart(oAuth2User,itemList),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/")
+	@DeleteMapping("/cart/")
 	@ApiOperation(value = "Deleting The user Cart....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
@@ -49,7 +49,7 @@ public class CartControllerProxy {
 		return new ResponseEntity<>(userFacade.deleteCartDetails(oAuth2User),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{productId}")
+	@DeleteMapping("/cart/{productId}")
 	@ApiOperation(value = "Deleting The user Cart Item....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted cartdetails "),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
@@ -57,7 +57,7 @@ public class CartControllerProxy {
 		return new ResponseEntity<>(userFacade.deleteItemInCartDetails(oAuth2User , productId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/{userId}")
+	@GetMapping("/cart/{userId}")
 	@ApiOperation(value = "Fetch The user Cart based on ID....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched cart details "),
 			@ApiResponse(code = 404,message = "Cart Found for specified User ID .."),

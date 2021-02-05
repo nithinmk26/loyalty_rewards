@@ -17,6 +17,6 @@ public interface ILoyaltyService {
 
 	void loyaltyRewards(OrderDetails order);
 
-	String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher);
+	String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher) throws LoyaltyRewardsGlobalAppException;
 
 }

@@ -16,8 +16,14 @@ import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.loyalty.service.ILoyaltyService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/loyalty")
+@Api(value = "Loyalty API's", description = "List of API's Available related to Loyalty Service.", tags = { "Loyalty API's" })
 public class LoyaltyController {
 	
 	@Autowired
@@ -34,12 +40,18 @@ public class LoyaltyController {
 	}
 	
 	@GetMapping("/{userId}")
+	@ApiOperation(value = "Fetch User Loyalty Points ....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched User Loyalty Points"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<Double> fetchUserLoyaltyPoints(@PathVariable String userId) {
 		return new ResponseEntity<>(loyaltyService.fetchUserLoyaltyPoints(userId),HttpStatus.OK);
 		
 	}
 	
 	@GetMapping("/{userId}/{vocherCode}")
+	@ApiOperation(value = "Validate Vocher Code wrt user ....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Varified the vochers available to user"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 400,message = "Vocher not Found wrt User .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
 	public ResponseEntity<Integer> validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode) throws LoyaltyRewardsGlobalAppException {
 		return new ResponseEntity<>(loyaltyService.validateVocherCodeAndFetchDiscountValue(userId,vocherCode),HttpStatus.OK);
 	}
@@ -50,7 +62,10 @@ public class LoyaltyController {
 	}
 	
 	@PostMapping("/vocher")
-	public ResponseEntity<String> addFestiveVocher(@RequestBody LoyaltyVoucher loyaltyVoucher) {
+	@ApiOperation(value = "Add Festival vocher wrt Country ....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully added vocher and assigned to tier level 2 and above users wrt Country..!"),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<String> addFestiveVocher(@RequestBody LoyaltyVoucher loyaltyVoucher) throws LoyaltyRewardsGlobalAppException {
 		return new ResponseEntity<>(loyaltyService.addFestiveVoucher(loyaltyVoucher),HttpStatus.CREATED);
 	}
 	

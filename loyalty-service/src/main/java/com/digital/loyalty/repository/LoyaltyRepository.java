@@ -19,4 +19,7 @@ public interface LoyaltyRepository extends JpaRepository<LoyaltyMember, Integer>
 
 	@Query(nativeQuery = true, value = "select loyalty_member.loyalty_points from loyalty_rewards_tiers.loyalty_member where loyalty_member.user_id = ?1")
 	double findByUserLoyaltyPoint(String userId);
+	
+	@Query(nativeQuery = true, value = "select loyalty_member.* from loyalty_member inner join tier_level  on loyalty_member.tier_id = tier_level.tier_id where tier_level.tier_level >= 2 and tier_country =?1")
+	List<LoyaltyMember> findAllMembersAboveTier2(String country);
 }

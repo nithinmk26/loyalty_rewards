@@ -1,6 +1,5 @@
 package com.digital.loyalty.dao;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +24,17 @@ public interface ILoyaltyDao {
 
 	LoyaltyMember validateVocherCode(String vocherCode);
 
-<<<<<<< HEAD
-=======
 	Optional<LoyaltyRewards> fetchLoyaltyRewards(String country);
 
-	void persistVoucher(LoyaltyVoucher loyaltyVoucher);
+	LoyaltyVoucher persistVoucher(LoyaltyVoucher loyaltyVoucher);
+
+	Optional<TierLevel> upgradeTier(String country, int existingTierLevel);
+
+	List<LoyaltyMember> findAllMembersAboveTier2(String country);
+
+	void updateAllMembers(List<LoyaltyMember> loyaltyMemberList);
+
+	int findVoucherBasedonCountryAndEngagement(String engagementName, String country);
 
 
->>>>>>> 92403391d3e06372ba07e902f07071c4daa6caab
 }

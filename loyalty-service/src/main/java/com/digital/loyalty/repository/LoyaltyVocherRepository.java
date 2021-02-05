@@ -14,4 +14,7 @@ public interface LoyaltyVocherRepository extends JpaRepository<LoyaltyVoucher, I
 	@Query(nativeQuery = true, value = "select * from loyalty_rewards_tiers.loyalty_voucher where voucher_country = ?2 AND engagement_name = ?1")
 	Optional<LoyaltyVoucher> fetchVocherByCountryAndEngmt(String engmt, String country);
 
+	@Query(nativeQuery = true,value = "select exists(select * from loyalty_voucher where voucher_country = ?2 and engagement_name = ?1)")
+	int existsByEngagementAndCountry(String engagementName, String country);
+
 }

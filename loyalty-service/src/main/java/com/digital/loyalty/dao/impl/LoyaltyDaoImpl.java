@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.loyalty.dao.ILoyaltyDao;
-import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
 import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
@@ -76,8 +75,30 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	}
 
 	@Override
-	public void persistVoucher(LoyaltyVoucher loyaltyVoucher) {
-		loyaltyVocherRepository.saveAndFlush(loyaltyVoucher);
+	public LoyaltyVoucher persistVoucher(LoyaltyVoucher loyaltyVoucher) {
+		return loyaltyVocherRepository.saveAndFlush(loyaltyVoucher);
 	}
+
+	@Override
+	public Optional<TierLevel> upgradeTier(String country, int existingTierLevel) {
+		//existingTierLevel+1 to upgrade into next level
+		return tierRepository.findTierByCoutryAndTierLevel(country,existingTierLevel);
+	}
+
+	@Override
+	public List<LoyaltyMember> findAllMembersAboveTier2(String country) {
+		return loyaltyRepository.findAllMembersAboveTier2(country);
+	}
+
+	@Override
+	public void updateAllMembers(List<LoyaltyMember> loyaltyMemberList) {
+		loyaltyRepository.saveAll(loyaltyMemberList);
+	}
+
+	@Override
+	public int findVoucherBasedonCountryAndEngagement(String engagementName, String country) {
+		return loyaltyVocherRepository.existsByEngagementAndCountry(engagementName,country);
+	}
+
 
 }
