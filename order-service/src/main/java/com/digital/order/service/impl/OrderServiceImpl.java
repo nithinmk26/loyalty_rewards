@@ -2,7 +2,7 @@ package com.digital.order.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.digital.order.dao.OrderDao;
@@ -22,113 +22,106 @@ import com.digital.order.utilitymethods.UtilityMethods;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
-	
+
 	@Autowired
 	private OrderDao orderDao;
-	
+
 	@Autowired
 	private CartProxy cartProxy;
-	
+
 	@Autowired
 	private LoyaltyProxy loyaltyProxy;
 
 	@Value("${loyalty.utilization.discount}")
 	private int loyaltyRewardsUtilizationDiscounts;
 
+	@Autowired
+	private KafkaTemplate<String, Object> kafkaTemplate;
+
+	private static final String LOYALTY_ORDER_CREATION = "loyaltyManagementTopic";
+
 	@Override
-	public String orderByCash(String userId , String voucherCode) throws OrderPersistanceException   {
-		try{
-			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
+	public String orderByCash(String userId, String voucherCode) throws LoyaltyRewardsGlobalAppException {
+		orderThroughVoucherCode(userId, voucherCode);
+		return "added successfully";
+	}
+
+	public String orderByCard(PaymentDto paymentDto, String userId, String voucherCode)
+			throws LoyaltyRewardsGlobalAppException {
+		String value = "";
+		int numberOfDigits = String.valueOf(paymentDto.getCardNumber()).length();
+		int cvvnum = String.valueOf(paymentDto.getCvv()).length();
+		if (numberOfDigits == 16 && cvvnum == 3) {
+			orderThroughVoucherCode(userId, voucherCode);
+			value = "Order placed succesfully";
+		} else {
+			throw new OrderPaymentException("Incorrect card Details ....Check and try again!!");
+		}
+		return value;
+	}
+
+	@Override
+	public String orderByUpi(UpiPaymentDto upiPaymentDto, String userId, String voucherCode)
+			throws LoyaltyRewardsGlobalAppException {
+		String value = "";
+		int numberOfDigits = String.valueOf(upiPaymentDto.getPhonenumber()).length();
+		if (numberOfDigits == 10) {
+			orderThroughVoucherCode(userId, voucherCode);
+			value = "Order placed succesfully";
+		} else {
+			throw new OrderPaymentException("Incorrect UPI Details ....Check and try again!!");
+		}
+		return value;
+	}
+
+	public double fetchUserLoyaltyPoints(String userId) {
+		return loyaltyProxy.fetchUserLoyaltyPoints(userId).getBody();
+	}
+
+	public int checkVoucherValidityAndFetchVoucher(String voucherCode, String userId)
+			throws LoyaltyRewardsGlobalAppException {
+		return loyaltyProxy.validateVocherCode(userId, voucherCode).getBody();
+	}
+
+	public Order voucherUtilization(String userId, String voucherCode, Order orderDetail)
+			throws LoyaltyRewardsGlobalAppException {
 		int voucherDiscountPercentage = checkVoucherValidityAndFetchVoucher(voucherCode, userId);
-			//get voucher discount and apply to order price 
+		// get voucher discount and apply to order price
+		orderDetail.setTotalPrice(
+				orderDetail.getTotalPrice() - ((voucherDiscountPercentage * orderDetail.getTotalPrice()) / 100));
+		return orderDetail;
+	}
+
+	public Order loyaltyPointsUlitization(String userId, String voucherCode, Order orderDetail) {
 		VoucherUserDto voucherUserDto = new VoucherUserDto();
 		voucherUserDto.setUserId(userId);
 		voucherUserDto.setVoucherCode(voucherCode);
 		double availableLoyaltypoints = fetchUserLoyaltyPoints(userId);
-		Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
-		orderDetail.setTotalPrice(orderDetail.getTotalPrice()-((voucherDiscountPercentage*orderDetail.getTotalPrice())/100));
-		double loyaltyUtilizablePoints = (loyaltyRewardsUtilizationDiscounts*orderDetail.getTotalPrice())/100;
-		if(availableLoyaltypoints < loyaltyUtilizablePoints)
-		{
-		orderDetail.setTotalPrice(orderDetail.getTotalPrice() - availableLoyaltypoints);
-		voucherUserDto.setUtilizedLoyaltyPoints(availableLoyaltypoints);
-		}
-		else {
-		orderDetail.setTotalPrice(orderDetail.getTotalPrice() - loyaltyUtilizablePoints);
-		voucherUserDto.setUtilizedLoyaltyPoints(loyaltyUtilizablePoints);
+		double loyaltyUtilizablePoints = (loyaltyRewardsUtilizationDiscounts * orderDetail.getTotalPrice()) / 100;
+		if (availableLoyaltypoints < loyaltyUtilizablePoints) {
+			orderDetail.setTotalPrice(orderDetail.getTotalPrice() - availableLoyaltypoints);
+			voucherUserDto.setUtilizedLoyaltyPoints(availableLoyaltypoints);
+		} else {
+			orderDetail.setTotalPrice(orderDetail.getTotalPrice() - loyaltyUtilizablePoints);
+			voucherUserDto.setUtilizedLoyaltyPoints(loyaltyUtilizablePoints);
 		}
 		orderDetail.setPaymentMode(paymentmode.CASH);
 		voucherUserDto.setOrderAmount(orderDetail.getTotalPrice());
-		  Order order= orderDao.addToOrder(orderDetail);
-		 //send the voucherUserDto to the kafka 
-		}catch(Exception e)
-		{
+		kafkaTemplate.send(LOYALTY_ORDER_CREATION, voucherUserDto);
+		return orderDetail;
+	}
+
+	public void orderThroughVoucherCode(String userId, String voucherCode) throws LoyaltyRewardsGlobalAppException {
+		try {
+			CartResponseDto cartResponseDto = cartProxy.getCartByUserId(userId).getBody();
+			Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponseDto);
+			if (voucherCode !=null) {
+				orderDetail = voucherUtilization(userId, voucherCode, orderDetail);
+			}
+			orderDetail = loyaltyPointsUlitization(userId, voucherCode, orderDetail);
+			orderDao.addToOrder(orderDetail);
+		} catch (Exception e) {
 			throw new OrderPersistanceException("Couldnt order the product !! Try again ...");
 		}
-	  return "added successfully";
 	}
-	
-	public String orderByCard(PaymentDto paymentDto , String userId , String voucherCode) throws OrderPersistanceException 
-	{
-		String value = "" ;
-		try{
-			int numberOfDigits = String.valueOf(paymentDto.getCardNumber()).length();
-		System.out.println(numberOfDigits);
-		int cvvnum = String.valueOf(paymentDto.getCvv()).length();
-		if(numberOfDigits == 16 && cvvnum == 3)
-		{
-			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
-			Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
-			
-			orderDetail.setPaymentMode(paymentmode.CARD);
-			 Order order= orderDao.addToOrder(orderDetail);
-				value = "Order placed succesfully";
-		}
-		else {
-			throw new OrderPaymentException("Incorrect card Details ....Check and try again!!");
-		}
-		return value;
-	}catch(Exception e)
-		{
-		throw new OrderPersistanceException("Order Couldnt be placed , Try again !!!");
-		}
-		
-	}
-
-	@Override
-	public String orderByUpi(UpiPaymentDto upiPaymentDto , String userId , String voucherCode) throws OrderPersistanceException   {
-		String value = "" ;
-		try{int numberOfDigits = String.valueOf(upiPaymentDto.getPhonenumber()).length();
-		if(numberOfDigits == 10)
-		{
-			CartResponseDto cartResponsedto = cartProxy.getCartByUserId(userId).getBody();
-			Order orderDetail = UtilityMethods.convertCartDtotoEntity(cartResponsedto);
-			orderDetail.setPaymentMode(paymentmode.UPI);
-			 orderDetail = orderDao.addToOrder(orderDetail);
-			value = "Order placed succesfully";
-		}else {
-			throw new OrderPaymentException("Incorrect UPI Details ....Check and try again!!");
-		}
-		return value;
-	}catch(Exception e)
-		{
-		throw new OrderPersistanceException("Order Couldnt be placed , Try again !!!");
-		}
-	}
-	
-	public double fetchUserLoyaltyPoints(String userId)
-	{
-		return  loyaltyProxy.fetchUserLoyaltyPoints(userId).getBody();
-	}
-	
-	public  int checkVoucherValidityAndFetchVoucher(String voucherCode , String userId) throws LoyaltyRewardsGlobalAppException
-	{
-		return loyaltyProxy.validateVocherCode(userId , voucherCode).getBody();
-	}
-	
-	
-
-	
-	
-	
 }

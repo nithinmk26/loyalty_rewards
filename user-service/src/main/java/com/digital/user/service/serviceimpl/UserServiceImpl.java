@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService{
 			//sending user information to kafka topic to create member details to the user
 			//have to throw exception
 			try {
+					System.err.println("Sending User To Kafka");
 					kafkaTemplate.send(LOYALTY_PROFILE_CREATION, userToCreateMemberInfo);
 			}catch (Exception e) {
 				return e.getMessage();

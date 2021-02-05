@@ -100,5 +100,10 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 		return loyaltyVocherRepository.existsByEngagementAndCountry(engagementName,country);
 	}
 
+	@Override
+	public List<TierLevel> fetchTiersBasedOnCountry(String country) {
+		return tierRepository.findAllByTierCountry(country);
+	}
+
 
 }

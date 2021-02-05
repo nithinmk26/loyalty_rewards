@@ -19,5 +19,8 @@ public interface TierRepository extends JpaRepository<TierLevel, Integer> {
 	@Query(nativeQuery = true, value = "select * from loyalty_rewards_tiers.tier_level where tier_country = ?1 and tier_level = ?2")
 	Optional<TierLevel> findTierByCoutryAndTierLevel(String country, int existingTierLevel);
 
+	@Query(nativeQuery = true, value = "select * from loyalty_rewards_tiers.tier_level where tier_country = ?1")
+	List<TierLevel> findAllByTierCountry(String country);
+
 
 }

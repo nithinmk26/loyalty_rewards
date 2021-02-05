@@ -36,5 +36,7 @@ public interface ILoyaltyDao {
 
 	int findVoucherBasedonCountryAndEngagement(String engagementName, String country);
 
+	List<TierLevel> fetchTiersBasedOnCountry(String country);
+
 
 }

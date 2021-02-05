@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digital.loyalty.dto.request.OrderDetails;
-import com.digital.loyalty.dto.request.UserProfileDto;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.loyalty.service.ILoyaltyService;
@@ -29,11 +28,11 @@ public class LoyaltyController {
 	@Autowired
 	private ILoyaltyService loyaltyService;
 	
-	@PostMapping("/memCreation")
-	public String loyaltyMemberCreation(@RequestBody UserProfileDto userProfileDto) throws Exception {
-		return loyaltyService.loyaltyMemberCreation(userProfileDto);
-	}
-	
+//	@PostMapping("/memCreation")
+//	public String loyaltyMemberCreation(@RequestBody UserProfileDto userProfileDto) throws Exception {
+//		return loyaltyService.loyaltyMemberCreation(userProfileDto);
+//	}
+//	
 	@PostMapping("/bdayVocher")
 	public String generateBdayVocher() throws Exception{
 		return loyaltyService.generateBdayVocher();

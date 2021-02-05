@@ -91,8 +91,11 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 				//send the vocher to the user....
 			MailGenenerator.emailGenerator(userProfileDto.getUserEmail(),String.format(SIGNUPMESSAGE, userProfileDto.getUserName()) , SIGNUPENGAGEMENT,vocherCode);
 			if (LocalDate.parse(userProfileDto.getDateOfBirth()).getDayOfMonth() == LocalDate.now().getDayOfMonth()  && LocalDate.parse(userProfileDto.getDateOfBirth()).getMonthValue() == LocalDate.now().getMonthValue()) {
-				//send the bday vocher
+				//send the bday vocher 
+				//assign bday voucher to user and saveFlush
 				MailGenenerator.emailGenerator(userProfileDto.getUserEmail(),String.format(BDAYMESSAGE, userProfileDto.getUserName()) ,BDAYENGAGEMENT ,vocherIdGenerator(BDAYENGAGEMENT));
+				assignEngagementToUser(loyaltyMember, BDAYENGAGEMENT);
+				loyaltyDao.persistMember(loyaltyMember); 
 			}
 			}
 			catch (Exception e) {  
@@ -139,14 +142,12 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	}
 	
 	public LoyaltyMember assignEngagementToUser(LoyaltyMember loyaltyMember,String engagement) {
-		Optional<TierLevel> tierFetched = loyaltyDao.fetchTierBasedOnCountry(loyaltyMember.getCountry());
-		loyaltyMember.setTier(tierFetched.get());
 		Optional<LoyaltyVoucher> vocherFetched = loyaltyDao.fetchLoyaltyVocher(engagement,loyaltyMember.getCountry());
 		Set<EngagementDetail> engagementList = new HashSet<>();
 		//Generating engagement related data and assign the same to user..
 		EngagementDetail engementDetail = new EngagementDetail()
-				.setAssignedDate(LocalDate.now())
-				.setCountry(loyaltyMember.getCountry())
+				.setAssignedDate(LocalDate.now());
+				engementDetail.setCountry(loyaltyMember.getCountry())
 				.setDescription(vocherFetched.get().getDescription())
 				.setDiscountInPercent(vocherFetched.get().getDiscountInPercent())
 				.setEngagementName(vocherFetched.get().getEngagementName())
@@ -155,8 +156,14 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		engementDetail.setVoucherValidity(engementDetail.getAssignedDate().plus(vocherFetched.get().getVoucherValidity(), ChronoUnit.DAYS));
 		engagementList.add(engementDetail);
 		loyaltyMember.setLoyaltyPoints((double)initialLoyaltyPoints);
+		if(engagement.equals(SIGNUPENGAGEMENT)) {
+			Optional<TierLevel> tierFetched = loyaltyDao.fetchTierBasedOnCountry(loyaltyMember.getCountry());
+			loyaltyMember.setTier(tierFetched.get());
 		loyaltyMember.setEngagementDetail(engagementList.stream().collect(Collectors.toList()));
-		return loyaltyMember;
+		}
+		else
+			loyaltyMember.getEngagementDetail().addAll(engagementList.stream().collect(Collectors.toList()));
+		return loyaltyMember; 
 	}
 
 	/**
@@ -185,14 +192,14 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	}
 	
 	
-	@KafkaListener(topics = "loyaltyManagermentTopic", groupId = "group_id")
+	@KafkaListener(topics = "loyaltyManagementTopic", groupId = "group_id")
 	public void consumeLoyaltyMemberCreationTopic(String byteData)  {
 		try {
 			VoucherUserDto voucherUserDto = objectMapper.readValue(byteData,VoucherUserDto.class);
 			updateUtilizedVocher(voucherUserDto.getUserId(), voucherUserDto.getVoucherCode());
 			OrderDetails orderDetails = new OrderDetails().setUserId(voucherUserDto.getUserId()).setOrderAmount(voucherUserDto.getOrderAmount());
-			updateUserLoyaltyPoints(voucherUserDto);
-			loyaltyRewardsReimbursment(orderDetails);
+			updateUserLoyaltyPoints(voucherUserDto);//50
+			loyaltyRewardsReimbursment(orderDetails); //300
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -227,15 +234,9 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		 * Pending
 		 */
 		public void updateUserLoyaltyPoints(VoucherUserDto voucherUserDto) {
-			LoyaltyMember loyaltyMember = loyaltyDao.fetchExistingMembers(voucherUserDto.getUserId()).get();
-			loyaltyMember.setLoyaltyPoints(loyaltyMember.getLoyaltyPoints() - voucherUserDto.getUtilizedLoyaltyPoints());
-			TierLevel userCurrentTier = loyaltyMember.getTier();
-			if((userCurrentTier.getLowerBoundTierValue() > loyaltyMember.getLoyaltyPoints()) && (loyaltyMember.getTier().getLevelOftheTier() > 0)) {
-				TierLevel downgradeTier = loyaltyDao.upgradeTier(loyaltyMember.getCountry(),loyaltyMember.getTier().getLevelOftheTier()-1).get();
-				loyaltyMember.setTier(downgradeTier);
-			}
-			
-			loyaltyDao.persistMember(loyaltyMember);
+			Optional<LoyaltyMember> loyaltyMember = loyaltyDao.fetchExistingMembers(voucherUserDto.getUserId());
+			loyaltyMember.get().setLoyaltyPoints(loyaltyMember.get().getLoyaltyPoints() - voucherUserDto.getUtilizedLoyaltyPoints());
+			loyaltyDao.persistMember(updateTier(loyaltyMember).get());
 		}
 
 	/**
@@ -243,7 +244,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	 *once order placed successfully rewards have to be calculated and updated onto loyalty member rewards in user
 	 *
 	 *pending
-	 */
+	 */ 
 	@Override
 	public void loyaltyRewardsReimbursment(OrderDetails order) {
 		//change ordersetails to vocherUserDto request once kafka implemented
@@ -252,13 +253,23 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		int rewardsPercent = loyaltyRewards.get().getRewardsInPercent();
 		double totalRewardPoints = (rewardsPercent * order.getOrderAmount())/100;
 		loyaltyMember.get().setLoyaltyPoints(loyaltyMember.get().getLoyaltyPoints() + totalRewardPoints);
-		//update tier based on total loyalty points - Done neeed to test
-		TierLevel userCurrentTier = loyaltyMember.get().getTier();
-		if((userCurrentTier.getUpperBoundTierValue() < loyaltyMember.get().getLoyaltyPoints()) && (loyaltyMember.get().getTier().getLevelOftheTier() <= 2)) {
-			TierLevel upgradeTier = loyaltyDao.upgradeTier(loyaltyMember.get().getCountry(),loyaltyMember.get().getTier().getLevelOftheTier()+1).get();
-			loyaltyMember.get().setTier(upgradeTier);
+		loyaltyDao.persistMember(updateTier(loyaltyMember).get());
+	}
+	
+	//in Tier 1  0-499 500-999 1000-3499 3500-0  4600-2000 = 2600
+	public Optional<LoyaltyMember> updateTier(Optional<LoyaltyMember> loyaltyMember) {
+		double availableLoyaltyPoints = loyaltyMember.get().getLoyaltyPoints();
+		List<TierLevel> tiersWRTUserCountry = loyaltyDao.fetchTiersBasedOnCountry(loyaltyMember.get().getCountry());
+		for (TierLevel tier : tiersWRTUserCountry) {
+			if(loyaltyMember.get().getTier().getUpperBoundTierValue()==0 || tier.getUpperBoundTierValue()==0) {
+				loyaltyMember.get().setTier(tier);
+			}
+			else if(tier.getLowerBoundTierValue() > availableLoyaltyPoints || availableLoyaltyPoints < tier.getUpperBoundTierValue()) {
+				loyaltyMember.get().setTier(tier);
+				break;
+			}
 		}
-		loyaltyDao.persistMember(loyaltyMember.get());
+		return loyaltyMember;
 	}
 
 	
@@ -284,6 +295,8 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	 * Consume kafka topic
 	 * Vocher Email is not sending - cleared
 	 * Completed Working fyn
+	 * 
+	 * Loalty member Tier ID was updating which sould not be happened
 	 * 
 	 * 	 */
 	@KafkaListener(topics = VOCHER_ASSIGNMENT_TOPIC, groupId = "group_id")
@@ -320,8 +333,6 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		 }
 		 return memberId.toString();
 	}
-
-
 
 	
 	//delete all expd voucher assigned to sepcied persons
