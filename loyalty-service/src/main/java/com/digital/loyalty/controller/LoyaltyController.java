@@ -58,7 +58,7 @@ public class LoyaltyController {
 
 	@PostMapping("/")
 	public void loyaltyRewards(@RequestBody OrderDetails order) {
-		loyaltyService.loyaltyRewards(order);
+		loyaltyService.loyaltyRewardsReimbursment(order);
 	}
 	
 	@PostMapping("/vocher")

@@ -7,7 +7,7 @@ import com.digital.loyalty.exception.LoyaltyRewardsGlobalAppException;
 
 public interface ILoyaltyService {
 
-	String loyaltyMemberCreation(UserProfileDto userProfileDto) throws Exception;
+//	String loyaltyMemberCreation(UserProfileDto userProfileDto) throws Exception;
 	
 	public String generateBdayVocher() throws Exception;
 
@@ -15,7 +15,7 @@ public interface ILoyaltyService {
 
 	int validateVocherCodeAndFetchDiscountValue(String userId,String vocherCode) throws LoyaltyRewardsGlobalAppException;
 
-	void loyaltyRewards(OrderDetails order);
+	void loyaltyRewardsReimbursment(OrderDetails order);
 
 	String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher) throws LoyaltyRewardsGlobalAppException;
 

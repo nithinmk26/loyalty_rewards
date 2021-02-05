@@ -16,8 +16,9 @@ public class OrderDetails {
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(String userId) {
+	public OrderDetails setUserId(String userId) {
 		this.userId = userId;
+		return this;
 	}
 
 	/**
@@ -30,8 +31,9 @@ public class OrderDetails {
 	/**
 	 * @param orderAmount the orderAmount to set
 	 */
-	public void setOrderAmount(double orderAmount) {
+	public OrderDetails setOrderAmount(double orderAmount) {
 		this.orderAmount = orderAmount;
+		return this;
 	}
 	
 	

@@ -32,7 +32,6 @@ import com.digital.loyalty.exception.VocherInvalidException;
 import com.digital.loyalty.service.ILoyaltyService;
 import com.digital.loyalty.util.MailGenenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -67,21 +66,13 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	private static final String VOCHER_ASSIGNMENT_TOPIC = "vocherAssignmentTopic";
 	
 	
-	@KafkaListener(topics = "loyaltyMemberCreationTopic", groupId = "group_id")
-	public void consumeLoyaltyMemberCreationTopic(String byteData)  {
-		try {
-			UserProfileDto userProfileDto = objectMapper.readValue(byteData,UserProfileDto.class);
-			loyaltyMemberCreation(userProfileDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * Completed Working Fine
 	 */
-	@Override
-	public String loyaltyMemberCreation(UserProfileDto userProfileDto) throws Exception {
+//	@Override
+	@KafkaListener(topics = "loyaltyMemberCreationTopic", groupId = "group_id")
+	public String loyaltyMemberCreation(String byteData) throws Exception {
+		UserProfileDto userProfileDto = objectMapper.readValue(byteData,UserProfileDto.class);
 		Optional<LoyaltyMember> loyaltyMemberFetched = loyaltyDao.fetchExistingMembers(userProfileDto.getUserId());
 		if(!loyaltyMemberFetched.isPresent()) {
 			String memberId = memberIdGenerator(userProfileDto.getUserName(), LocalDate.parse(userProfileDto.getDateOfBirth()), userProfileDto.getCountry());
@@ -194,6 +185,20 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	}
 	
 	
+	@KafkaListener(topics = "loyaltyManagermentTopic", groupId = "group_id")
+	public void consumeLoyaltyMemberCreationTopic(String byteData)  {
+		try {
+			VoucherUserDto voucherUserDto = objectMapper.readValue(byteData,VoucherUserDto.class);
+			updateUtilizedVocher(voucherUserDto.getUserId(), voucherUserDto.getVoucherCode());
+			OrderDetails orderDetails = new OrderDetails().setUserId(voucherUserDto.getUserId()).setOrderAmount(voucherUserDto.getOrderAmount());
+			updateUserLoyaltyPoints(voucherUserDto);
+			loyaltyRewardsReimbursment(orderDetails);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * @param userId
 	 * @param vocherCode
@@ -213,6 +218,25 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		loyaltyDao.persistMember(loyaltyMember);
 
 	}
+	
+	
+	//call from kafka consumer
+		//downgradeTier
+		/**
+		 * @param voucherUserDto
+		 * Pending
+		 */
+		public void updateUserLoyaltyPoints(VoucherUserDto voucherUserDto) {
+			LoyaltyMember loyaltyMember = loyaltyDao.fetchExistingMembers(voucherUserDto.getUserId()).get();
+			loyaltyMember.setLoyaltyPoints(loyaltyMember.getLoyaltyPoints() - voucherUserDto.getUtilizedLoyaltyPoints());
+			TierLevel userCurrentTier = loyaltyMember.getTier();
+			if((userCurrentTier.getLowerBoundTierValue() > loyaltyMember.getLoyaltyPoints()) && (loyaltyMember.getTier().getLevelOftheTier() > 0)) {
+				TierLevel downgradeTier = loyaltyDao.upgradeTier(loyaltyMember.getCountry(),loyaltyMember.getTier().getLevelOftheTier()-1).get();
+				loyaltyMember.setTier(downgradeTier);
+			}
+			
+			loyaltyDao.persistMember(loyaltyMember);
+		}
 
 	/**
 	 *@implNote initialized by kafka topic 
@@ -221,7 +245,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	 *pending
 	 */
 	@Override
-	public void loyaltyRewards(OrderDetails order) {
+	public void loyaltyRewardsReimbursment(OrderDetails order) {
 		//change ordersetails to vocherUserDto request once kafka implemented
 		Optional<LoyaltyMember> loyaltyMember = loyaltyDao.fetchExistingMembers(order.getUserId());
 		Optional<LoyaltyRewards> loyaltyRewards = loyaltyDao.fetchLoyaltyRewards(loyaltyMember.get().getCountry());
@@ -237,23 +261,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		loyaltyDao.persistMember(loyaltyMember.get());
 	}
 
-	//call from kafka consumer
-	//downgradeTier
-	/**
-	 * @param voucherUserDto
-	 * Pending
-	 */
-	public void updateUserLoyaltyPoints(VoucherUserDto voucherUserDto) {
-		LoyaltyMember loyaltyMember = loyaltyDao.fetchExistingMembers(voucherUserDto.getUserId()).get();
-		loyaltyMember.setLoyaltyPoints(loyaltyMember.getLoyaltyPoints() - voucherUserDto.getUtilizedLoyaltyPoints());
-		TierLevel userCurrentTier = loyaltyMember.getTier();
-		if((userCurrentTier.getLowerBoundTierValue() > loyaltyMember.getLoyaltyPoints()) && (loyaltyMember.getTier().getLevelOftheTier() > 0)) {
-			TierLevel downgradeTier = loyaltyDao.upgradeTier(loyaltyMember.getCountry(),loyaltyMember.getTier().getLevelOftheTier()-1).get();
-			loyaltyMember.setTier(downgradeTier);
-		}
-		
-		loyaltyDao.persistMember(loyaltyMember);
-	}
+	
 	
 	/**
 	 *Completed Working fyn
@@ -274,8 +282,8 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	/**
 	 * @param engagement
 	 * Consume kafka topic
-	 *Vocher Email is not sending - cleared
-	 *Completed Working fyn
+	 * Vocher Email is not sending - cleared
+	 * Completed Working fyn
 	 * 
 	 * 	 */
 	@KafkaListener(topics = VOCHER_ASSIGNMENT_TOPIC, groupId = "group_id")
@@ -284,7 +292,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		try {
 			LoyaltyVoucher voucher = objectMapper.readValue(byteData, LoyaltyVoucher.class);
 			List<LoyaltyMember> loyaltyMemberList = loyaltyDao.findAllMembersAboveTier2(voucher.getCountry());
-			loyaltyMemberList.stream().map((member)->
+			loyaltyMemberList.stream().map(member->
 			{
 				MailGenenerator.emailGenerator(member.getEmail(), String.format(FESTMESSAGE, member.getName()) , voucher.getEngagementName(), vocherIdGenerator(voucher.getEngagementName()));
 				return assignEngagementToUser(member, voucher.getEngagementName());
@@ -312,6 +320,8 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		 }
 		 return memberId.toString();
 	}
+
+
 
 	
 	//delete all expd voucher assigned to sepcied persons
