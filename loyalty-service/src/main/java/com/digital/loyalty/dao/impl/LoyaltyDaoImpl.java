@@ -1,5 +1,6 @@
 package com.digital.loyalty.dao.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digital.loyalty.dao.ILoyaltyDao;
+import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
 import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
 import com.digital.loyalty.entity.TierLevel;
+import com.digital.loyalty.repository.EngagementDetailRepository;
 import com.digital.loyalty.repository.LoyaltyRepository;
 import com.digital.loyalty.repository.LoyaltyRewardsRepository;
 import com.digital.loyalty.repository.LoyaltyVocherRepository;
@@ -30,6 +33,10 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	
 	@Autowired
 	private LoyaltyRewardsRepository loyaltyRewardsRepository;
+	
+	@Autowired
+	private EngagementDetailRepository engagementDetailRepository;
+	
 	
 	@Override
 	public Optional<LoyaltyMember> fetchExistingMembers(String userId) {
@@ -104,6 +111,28 @@ public class LoyaltyDaoImpl implements ILoyaltyDao{
 	public List<TierLevel> fetchTiersBasedOnCountry(String country) {
 		return tierRepository.findAllByTierCountry(country);
 	}
+
+	@Override
+	public List<LoyaltyMember> fetchAllUsers() {
+		return loyaltyRepository.findAll();
+	}
+
+//	@Override
+//	public void removeVoucherFromUser(int engagementId) {
+//		enagagementDetailRepository.deleteById(engagementId);
+//	}
+
+	@Override
+	public List<LoyaltyMember> fetchAllUsersWithExipredVouchers(LocalDate date) {
+		return loyaltyRepository.fetchAllUsersWithExipredVouchers(date);
+	}
+
+	@Override
+	public void removeVouchersFromUser(List<EngagementDetail> removeableVochers) {
+		engagementDetailRepository.deleteAll(removeableVochers);
+		
+	}
+
 
 
 }

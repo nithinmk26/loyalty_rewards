@@ -1,8 +1,10 @@
 package com.digital.loyalty.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.digital.loyalty.entity.EngagementDetail;
 import com.digital.loyalty.entity.LoyaltyMember;
 import com.digital.loyalty.entity.LoyaltyRewards;
 import com.digital.loyalty.entity.LoyaltyVoucher;
@@ -37,6 +39,14 @@ public interface ILoyaltyDao {
 	int findVoucherBasedonCountryAndEngagement(String engagementName, String country);
 
 	List<TierLevel> fetchTiersBasedOnCountry(String country);
+
+	List<LoyaltyMember> fetchAllUsers();
+
+	//void removeVoucherFromUser(int engagementId);
+
+	List<LoyaltyMember> fetchAllUsersWithExipredVouchers(LocalDate localDate);
+
+	void removeVouchersFromUser(List<EngagementDetail> removeableVochers);
 
 
 }

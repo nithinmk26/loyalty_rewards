@@ -68,5 +68,8 @@ public class LoyaltyController {
 		return new ResponseEntity<>(loyaltyService.addFestiveVoucher(loyaltyVoucher),HttpStatus.CREATED);
 	}
 	
-	
+	@PostMapping("/unAssignVoucher")
+	public String loyaltyRewards() {
+		return loyaltyService.deleteAllUsedAndExpiredVouchers();
+	}
 }

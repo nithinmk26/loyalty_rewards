@@ -1,5 +1,6 @@
 package com.digital.loyalty.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,8 @@ public interface LoyaltyRepository extends JpaRepository<LoyaltyMember, Integer>
 	
 	@Query(nativeQuery = true, value = "select loyalty_member.* from loyalty_member inner join tier_level  on loyalty_member.tier_id = tier_level.tier_id where tier_level.tier_level >= 2 and tier_country =?1")
 	List<LoyaltyMember> findAllMembersAboveTier2(String country);
+
+	@Query(nativeQuery = true, value = "SELECT DISTINCT mem.* FROM loyalty_member mem JOIN loyalty_member_engagements memeng ON mem.serial_id = memeng.serial_id JOIN engagement_detail eng ON memeng.engagement_id = eng.engagement_id WHERE eng.isapplied=1 or eng.voucher_validity < ?1")
+	List<LoyaltyMember> fetchAllUsersWithExipredVouchers(LocalDate date);
+
 }

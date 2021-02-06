@@ -19,4 +19,6 @@ public interface ILoyaltyService {
 
 	String addFestiveVoucher(LoyaltyVoucher loyaltyVoucher) throws LoyaltyRewardsGlobalAppException;
 
+	public String deleteAllUsedAndExpiredVouchers();
+
 }

@@ -3,6 +3,7 @@ package com.digital.loyalty.service.impl;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -334,10 +335,48 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		 return memberId.toString();
 	}
 
-	
+
 	//delete all expd voucher assigned to sepcied persons
 	//delete all expired vochers from vocher list
 	
+//	/**
+//	 * Use Scheduled job to remove all vochers...
+//	 */
+//	public String deleteAllUsedAndExpiredVouchers() {
+//		List<LoyaltyMember> userList = loyaltyDao.fetchAllUsers();
+//		for (LoyaltyMember loyaltyMember : userList) {
+//			List<EngagementDetail> engements = loyaltyMember.getEngagementDetail();
+//			for (EngagementDetail voucher : engements) {
+//				if(voucher.isApplied() || voucher.getVoucherValidity().isBefore(LocalDate.now())) {
+//					loyaltyMember.getEngagementDetail().remove(voucher);
+//					loyaltyDao.persistMember(loyaltyMember);
+//					loyaltyDao.removeVoucherFromUser(voucher);
+//				}
+//			}
+//		}
+//		
+//		return "Un assigned all vouchers.";
+//	}
+//	
 	
+	
+	@Override
+	public String deleteAllUsedAndExpiredVouchers() {
+		List<LoyaltyMember> membersListWithExpiredVouchers = loyaltyDao.fetchAllUsersWithExipredVouchers(LocalDate.now());
+		for (LoyaltyMember loyaltyMember : membersListWithExpiredVouchers) {
+				List<EngagementDetail> engements = loyaltyMember.getEngagementDetail();
+				List<EngagementDetail> removeableVochers = new ArrayList<>();
+				for (EngagementDetail enagement : engements) {
+					if(enagement.isApplied() || enagement.getVoucherValidity().isBefore(LocalDate.now())) {
+						removeableVochers.add(enagement);
+					}
+				}
+				loyaltyMember.getEngagementDetail().removeAll(removeableVochers);
+				loyaltyDao.persistMember(loyaltyMember);
+				loyaltyDao.removeVouchersFromUser(removeableVochers);
+				
+		}
+		return null;
+	}
 	
 }
