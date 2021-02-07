@@ -175,6 +175,9 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		return loyaltyDao.fetchLoyaltyPointsforUser(userId);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public int validateVocherCodeAndFetchDiscountValue(String userId, String vocherCode) throws LoyaltyRewardsGlobalAppException {
 		LoyaltyMember loyaltyMember =  loyaltyDao.validateVocherCode(userId);
@@ -336,8 +339,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	}
 
 
-	//delete all expd voucher assigned to sepcied persons
-	//delete all expired vochers from vocher list
+	
 	
 //	/**
 //	 * Use Scheduled job to remove all vochers...
