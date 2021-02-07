@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.digital.loyalty.dao.ILoyaltyDao;
@@ -112,7 +113,9 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	 *Genrate Bday Vocher working fyn ... have to implement CRON job
 	 */
 	@Override
+	@Scheduled(cron = "0 0 0 * * ?")
 	public String generateBdayVocher() throws Exception {
+		System.err.println("Birthday voucher initated from scheduling..!!!!!!!!!!!");
 		StringBuilder dateRegex = new StringBuilder("%");
 		
 		int monthValue = LocalDate.now().getMonthValue();
@@ -337,32 +340,9 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		 }
 		 return memberId.toString();
 	}
-
-
-	
-	
-//	/**
-//	 * Use Scheduled job to remove all vochers...
-//	 */
-//	public String deleteAllUsedAndExpiredVouchers() {
-//		List<LoyaltyMember> userList = loyaltyDao.fetchAllUsers();
-//		for (LoyaltyMember loyaltyMember : userList) {
-//			List<EngagementDetail> engements = loyaltyMember.getEngagementDetail();
-//			for (EngagementDetail voucher : engements) {
-//				if(voucher.isApplied() || voucher.getVoucherValidity().isBefore(LocalDate.now())) {
-//					loyaltyMember.getEngagementDetail().remove(voucher);
-//					loyaltyDao.persistMember(loyaltyMember);
-//					loyaltyDao.removeVoucherFromUser(voucher);
-//				}
-//			}
-//		}
-//		
-//		return "Un assigned all vouchers.";
-//	}
-//	
-	
 	
 	@Override
+	@Scheduled(cron = "0 0 0 * * ?")
 	public String deleteAllUsedAndExpiredVouchers() {
 		List<LoyaltyMember> membersListWithExpiredVouchers = loyaltyDao.fetchAllUsersWithExipredVouchers(LocalDate.now());
 		for (LoyaltyMember loyaltyMember : membersListWithExpiredVouchers) {

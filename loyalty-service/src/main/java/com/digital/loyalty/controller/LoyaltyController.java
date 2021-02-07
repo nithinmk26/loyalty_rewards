@@ -69,7 +69,10 @@ public class LoyaltyController {
 	}
 	
 	@PostMapping("/unAssignVoucher")
-	public String loyaltyRewards() {
-		return loyaltyService.deleteAllUsedAndExpiredVouchers();
+	@ApiOperation(value = "Delete ALL expired vouchers from Users ....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted expired vouchers from Users ...."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public ResponseEntity<String> loyaltyRewards() {
+		return new ResponseEntity<>(loyaltyService.deleteAllUsedAndExpiredVouchers(),HttpStatus.OK);
 	}
 }
