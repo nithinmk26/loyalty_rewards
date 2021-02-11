@@ -1,0 +1,142 @@
+User Service ----------------------------
+
+User Profile Update 
+
+{
+  "country": "IN",
+  "dateOfBirth": "1997-02-11",
+  "userAddress": "Rajajinagar, Birur Chickmagalore 577116",
+  "userPhoneNumber": 9113683980
+}
+
+
+Product Service 
+
+Appearal
+{
+  "brand": "PUMA",
+  "colour": "RED",
+  "description": "Cotton Slim fit Regular T shirt",
+  "gender": "MALE",
+  "licenseNum": "Cl9818782",
+  "manufactureDate": "2021-01-01",
+  "name": "Round Neck TShirt",
+  "price": 897,
+  "quantity": 10,
+  "returnwithin": "7",
+  "size": "XL",
+  "type": "Top Wear"
+}
+
+{
+  "brand": "NIKE",
+  "colour": "Black",
+  "description": "TRack pant",
+  "gender": "FEMALE",
+  "licenseNum": "Cl9818555",
+  "manufactureDate": "2021-01-20",
+  "name": "Slim fit Track pant",
+  "price": 1500,
+  "quantity": 27,
+  "returnwithin": "30",
+  "size": "L",
+  "type": "Bottom Wear"
+}
+
+
+Book Data
+{
+  "author": "Komala",
+  "description": "Half girlfriend",
+  "genre": "rom-com",
+  "licenseNum": "1423",
+  "manufactureDate": "15th sep",
+  "name": "book",
+  "price": 350.00,
+  "publishedDate": "2021-01-13",
+  "publisher": "NRK details",
+  "quantity": 2,
+  "returnwithin": "5thsep"
+}
+
+{
+  "author": "Nithin",
+  "description": "Half Moon",
+  "genre": "rom-com",
+  "licenseNum": "1423",
+  "manufactureDate": "10th sep",
+  "name": "book",
+  "price": 550.00,
+  "publishedDate": "2021-01-13",
+  "publisher": "NRK details",
+  "quantity": 2,
+  "returnwithin": "5thsep"
+}
+
+Electronics
+
+{
+  "brand": "ICON",
+  "description": "Iro box",
+  "design": "Fabric",
+  "licenseNum": "IB1234",
+  "manufactureDate": "2021-01-01",
+  "manufacturedby": "Nanda ithin",
+  "model": "2020",
+  "name": "Sleek Iron box",
+  "price": 788,
+  "quantity": 25,
+  "returnwithin": "7"
+}​​​​​​​​
+
+
+
+
+House Hold
+
+{
+"brand": "Peigon",
+"description": "Mix-Grinder",
+"licenseNum": "09K3342",
+"manufactureDate": "09-Aug-2020",
+"name": "Peigon Mixer",
+"price": 4000,
+"quantity": 1,
+"returnwithin": "10-Sep-2020",
+"type": "Grinder"
+}
+
+{
+"brand": "preistge",
+"description": "Cooker",
+"licenseNum": "09K3342",
+"manufactureDate": "09-Aug-2020",
+"name": "Preistge Cooker",
+"price": 490,
+"quantity": 1,
+"returnwithin": "10-Sep-2020",
+"type": "cook"
+}
+
+
+Add to Cart Data 
+From USer Service
+
+[
+  {
+    "description": "Cooker",
+    "name": "Preistge Cooker",
+    "productId": 6,
+    "productPrice": 490,
+    "quantity": 1,
+    "returnWithin": "7"
+  },
+  {
+    "description": "Half Moon",
+    "name": "book",
+    "productId": 4,
+    "productPrice": 550.00,
+    "quantity": 2,
+    "returnWithin": "5"
+  }
+]

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.digital.user.dao.UserDao;
 import com.digital.user.dto.request.CartDto;
 import com.digital.user.dto.request.CartResponseDto;
 import com.digital.user.dto.request.ItemDto;
+import com.digital.user.dto.request.UserProfileRequestLoyaltyMember;
 import com.digital.user.dto.request.UserProfileUpdateDto;
 import com.digital.user.entity.UserInformation;
 import com.digital.user.exception.CartServiceProxyAppException;
@@ -31,6 +33,11 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private CartServiceProxy cartServiceProxy;
+	
+	@Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
+
+    private static final String LOYALTY_PROFILE_CREATION = "loyaltyMemberCreationTopic";
 
 
 	@Override
@@ -60,6 +67,20 @@ public class UserServiceImpl implements UserService{
 			newUser.setCountry(userProfileUpdateDto.getCountry());
 			newUser.setDateOfBirth(userProfileUpdateDto.getDateOfBirth());
 			userDao.saveUser(newUser);
+			UserProfileRequestLoyaltyMember userToCreateMemberInfo = new UserProfileRequestLoyaltyMember()
+					.setCountry(newUser.getCountry())
+					.setDateOfBirth(newUser.getDateOfBirth().toString())
+					.setUserEmail(newUser.getUserEmail())
+					.setUserId(newUser.getUserId())
+					.setUserName(newUser.getUserName());
+			//sending user information to kafka topic to create member details to the user
+			//have to throw exception
+			try {
+					System.err.println("Sending User To Kafka");
+					kafkaTemplate.send(LOYALTY_PROFILE_CREATION, userToCreateMemberInfo);
+			}catch (Exception e) {
+				return e.getMessage();
+			}
 		}
 		return "User Profile SuccessFully Updated...!";
 	}

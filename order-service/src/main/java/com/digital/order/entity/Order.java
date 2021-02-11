@@ -43,7 +43,7 @@ public class Order {
 	private List<Items> itemList;
 	
 	@CreationTimestamp
-	private LocalDateTime orderedDate;
+	private LocalDate orderedDate;
 	
 	@Column(name = "num_of_items")
 	private int numOfItems;
@@ -51,7 +51,7 @@ public class Order {
 	@Column(name = "total_price")
 	private double totalPrice;
 	
-	@Enumerated(EnumType.STRING)
+	
 	private paymentmode paymentMode ;
 
 	public int getOrderId() {
@@ -86,11 +86,11 @@ public class Order {
 		this.itemList = itemList;
 	}
 
-	public LocalDateTime getOrderedDate() {
+	public LocalDate getOrderedDate() {
 		return orderedDate;
 	}
 
-	public void setOrderedDate(LocalDateTime orderedDate) {
+	public void setOrderedDate(LocalDate orderedDate) {
 		this.orderedDate = orderedDate;
 	}
 
@@ -118,7 +118,7 @@ public class Order {
 		this.paymentMode = paymentMode;
 	}
 
-	public Order(int orderId, String userId, String userName, List<Items> itemList, LocalDateTime orderedDate,
+	public Order(int orderId, String userId, String userName, List<Items> itemList, LocalDate orderedDate,
 			int numOfItems, double totalPrice, paymentmode paymentMode) {
 		super();
 		this.orderId = orderId;
@@ -133,7 +133,6 @@ public class Order {
 
 	public Order() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

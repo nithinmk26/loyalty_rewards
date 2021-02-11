@@ -16,19 +16,19 @@ public class OrderFacade {
 	@Autowired
 	private IOrderService orderService;
 	
-	public String orderByCash(String userId) throws LoyaltyRewardsGlobalAppException
+	public String orderByCash(String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException
 	{
-		return orderService.orderByCash(userId);
+		return orderService.orderByCash(userId ,voucherCode) ;
 	}
 	
-	public String orderByCard(PaymentDto paymentDto , String userId) throws LoyaltyRewardsGlobalAppException
+	public String orderByCard(PaymentDto paymentDto , String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException
 	{
-		return orderService.orderByCard( paymentDto,userId);
+		return orderService.orderByCard( paymentDto,userId, voucherCode);
 	}
 	
-	public String orderByUpi(UpiPaymentDto upiPayment , String userId) throws LoyaltyRewardsGlobalAppException
+	public String orderByUpi(UpiPaymentDto upiPayment , String userId , String voucherCode) throws LoyaltyRewardsGlobalAppException
 	{
-		return orderService.orderByUpi(upiPayment , userId);
+		return orderService.orderByUpi(upiPayment , userId , voucherCode);
 	}
 
 }

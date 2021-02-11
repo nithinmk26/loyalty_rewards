@@ -1,12 +1,13 @@
 package com.digital.user.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "user_information")
@@ -18,7 +19,7 @@ public class UserInformation {
 	
 	@Column(name = "user_name")
 	private String userName;
-	
+	 
 	@Column(name = "user_email")
 	private String userEmail;
 	
@@ -34,6 +35,7 @@ public class UserInformation {
 	@Column(name = "country")
 	private String country;
 	
+	 @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	@Column(name = "dob")
 	private LocalDate dateOfBirth;
 	

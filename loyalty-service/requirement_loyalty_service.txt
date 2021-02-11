@@ -17,6 +17,7 @@ API-2 (while placing an Order)
 -> fetch the constant value of discount used from the loyalty points .
 -> apply the discount to the final price of order from the loyalty points .
 -> place the order and then send the order details to the kafka
+-> //vouchercode in url should be replaced/ optional when ther is no voucher code 
 
 
 API - 3 (reward functionality)
@@ -132,4 +133,13 @@ public static void main(String[] args) throws Exception {
 		msg.setContent(multipart);
 		Transport.send(msg);
 	}
+Parsing String format to LocalDate format
 
+   String date = "2016-08-16";
+
+        //default, ISO_LOCAL_DATE
+        LocalDate localDate = LocalDate.parse(date);
+
+        System.out.println(localDate);
+
+    }

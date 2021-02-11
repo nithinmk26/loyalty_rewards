@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.digital.productservice.dto.ProductDetailsData;
 import com.digital.productservice.dto.model.ProductItemModel;
 import com.digital.productservice.entity.Product;
+import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
 import com.digital.productservice.exception.ProductServiceFetchingException;
 import com.digital.productservice.exception.ProductUnavailabilityException;
 import com.digital.productservice.repository.ProductRepository;
@@ -27,8 +28,12 @@ public class ProductServiceImpl implements IProductService {
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	public String deleteProductByID(int id) {
+	public String deleteProductByID(int id) throws LoyaltyRewardsGlobalAppException {
+		if(productRepository.existsById(id)) {
 		productRepository.deleteById(id);
+		}
+		else
+			throw new ProductServiceFetchingException(String.format("Product With ID %s is not found in Database...",id));
 		return "Successfully deleted";
 	}
 
@@ -81,6 +86,21 @@ public class ProductServiceImpl implements IProductService {
 			}
 		}
 		return productUnavailability;
+	}
+
+	@Override
+	public void updateProductByIdAndQuantity(int productId, int quantity) throws LoyaltyRewardsGlobalAppException {
+		Optional<Product> product = productRepository.findById(productId);
+		if(product.get().getQuantity() < quantity) {
+			throw new ProductServiceFetchingException(String.format(" Product Id %d does not have %d quatity available..", productId, quantity));
+		}
+		product.get().setQuantity(product.get().getQuantity() - quantity);
+		if(product.get().getQuantity() == 0) {
+			productRepository.deleteById(productId);
+		}
+		else {
+			productRepository.saveAndFlush(product.get());
+		}
 	}
 
 

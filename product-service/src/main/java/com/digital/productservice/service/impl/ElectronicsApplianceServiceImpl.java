@@ -26,7 +26,7 @@ public class ElectronicsApplianceServiceImpl implements IElectronicApplianceServ
 		try{
 			ElectronicAppliancesData electronicAppliancesData = modelMapper.map(electronicappliancedto, ElectronicAppliancesData.class);
 			electronicAppliancesData = electronicApplancesRepository.save(electronicAppliancesData);
-			return String.format("Apparel Data Successfully saved in DB with Product Id %d",electronicAppliancesData.getId());
+			return String.format("Electronics Data Successfully saved in DB with Product Id %d",electronicAppliancesData.getId());
 		}catch (RuntimeException e) {
 			throw new ProductServicePersistingException("Unable to save the Data...!!! Please try again");
 		}
