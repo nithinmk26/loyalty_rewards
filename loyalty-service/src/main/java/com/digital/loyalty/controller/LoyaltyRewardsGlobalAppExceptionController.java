@@ -22,11 +22,8 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 
 	
 	@ExceptionHandler(LoyaltyRewardsGlobalAppException.class)
-	public ResponseEntity<Map<String, Object>> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
-		Map<String, Object> response = new HashMap<>();
-		response.put(err, true);
-		response.put(msg, e.getLocalizedMessage());
-		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	public ResponseEntity<String> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 	
 	

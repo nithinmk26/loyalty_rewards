@@ -57,7 +57,7 @@ public class CartControllerProxy {
 		return new ResponseEntity<>(userFacade.deleteItemInCartDetails(oAuth2User , productId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/cart/{userId}")
+	@GetMapping("/cart")
 	@ApiOperation(value = "Fetch The user Cart based on ID....")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Fetched cart details "),
 			@ApiResponse(code = 404,message = "Cart Found for specified User ID .."),

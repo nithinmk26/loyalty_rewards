@@ -11,10 +11,10 @@ import com.digital.order.exception.LoyaltyRewardsGlobalAppException;
 @FeignClient(value = "loyalty-service")
 public interface LoyaltyProxy {
 	
-	@GetMapping("/{userId}")
+	@GetMapping("/loyalty/{userId}")
 	public ResponseEntity<Double> fetchUserLoyaltyPoints(@PathVariable String userId);
 	
-	@GetMapping("/{userId}/{vocherCode}")
+	@GetMapping("/loyalty/{userId}/{vocherCode}")
 	public ResponseEntity<Integer>  validateVocherCode(@PathVariable String userId, @PathVariable String vocherCode)  throws LoyaltyRewardsGlobalAppException;
 
 }

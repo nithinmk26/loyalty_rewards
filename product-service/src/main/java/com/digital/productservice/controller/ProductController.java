@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,7 +80,7 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Deleted Product information from DB"),
 			@ApiResponse(code = 404,message = "Product Not Found in Database .."),
 			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
-	public ResponseEntity<String> deleteProductById(@PathVariable int id)
+	public ResponseEntity<String> deleteProductById(@PathVariable int id) throws LoyaltyRewardsGlobalAppException
 	{
 		return new ResponseEntity<>(productFacade.deleteProductByID(id),HttpStatus.OK);
 	}
@@ -133,7 +134,17 @@ public class ProductController {
 	public ResponseEntity<ProductDetailsData> fetchProductById(@PathVariable int productId) throws LoyaltyRewardsGlobalAppException{
 		return new ResponseEntity<>(productFacade.fetchProductById(productId),HttpStatus.OK);
 	}
-
+	
+	
+	@PutMapping("/{productId}/{quantity}")
+	@ApiOperation(value = "Update product based on Product ID and quantity from Database....")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Updated product details from DB"),
+			@ApiResponse(code = 404,message = "No Products found in DB .."),
+			@ApiResponse(code = 400,message = "Bad Request .."),@ApiResponse(code = 500,message = "Internal Server Error ..")})
+	public void updateProductByIdAndQuantity(@PathVariable int productId,@PathVariable int quantity) throws LoyaltyRewardsGlobalAppException{
+		productFacade.updateProductByIdAndQuantity(productId,quantity);
+	}
+	
 
 
 }

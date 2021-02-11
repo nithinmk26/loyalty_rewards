@@ -21,10 +21,10 @@ public interface CartServiceProxy {
 	@DeleteMapping("/cart/{userId}")
 	public ResponseEntity<String> deleteCartDetails(@PathVariable String userId) throws LoyaltyRewardsGlobalAppException;
 	
-	@DeleteMapping("/{userId}/product/{productId}")
+	@DeleteMapping("/cart/{userId}/product/{productId}")
 	public ResponseEntity<String> deleteItemInCartDetails(@PathVariable String userId , @PathVariable int productId) throws LoyaltyRewardsGlobalAppException;
 	
-	@GetMapping("/{userId}")
+	@GetMapping("/cart/{userId}")
 	public ResponseEntity<CartResponseDto> getCartByUserId(@PathVariable String userId) throws LoyaltyRewardsGlobalAppException;
 	
 }

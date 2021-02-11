@@ -12,9 +12,6 @@ import com.digital.productservice.dto.HouseHoldItemDto;
 import com.digital.productservice.dto.ProductDetailsData;
 import com.digital.productservice.dto.model.ProductItemModel;
 import com.digital.productservice.exception.LoyaltyRewardsGlobalAppException;
-import com.digital.productservice.exception.ProductServiceFetchingException;
-import com.digital.productservice.exception.ProductServicePersistingException;
-import com.digital.productservice.exception.ProductUnavailabilityException;
 import com.digital.productservice.service.IApparelDataService;
 import com.digital.productservice.service.IBookDataService;
 import com.digital.productservice.service.IElectronicApplianceService;
@@ -56,7 +53,7 @@ public class ProductFacade {
 		return houseHoldService.getAllHouseHoldProducts();
 	}
 
-	public String deleteProductByID(int id) {
+	public String deleteProductByID(int id) throws LoyaltyRewardsGlobalAppException {
 		return productService.deleteProductByID(id);
 	}
 
@@ -86,6 +83,10 @@ public class ProductFacade {
 
 	public Boolean getAllProductAvailability(List<ProductItemModel> productItemModel) throws LoyaltyRewardsGlobalAppException {
 		return productService.getAllProductAvailability(productItemModel);
+	}
+
+	public void updateProductByIdAndQuantity(int productId, int quantity) throws LoyaltyRewardsGlobalAppException {
+		productService.updateProductByIdAndQuantity(productId,quantity);
 	}
 
 

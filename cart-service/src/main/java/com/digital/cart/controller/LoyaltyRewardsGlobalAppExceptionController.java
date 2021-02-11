@@ -25,27 +25,18 @@ public class LoyaltyRewardsGlobalAppExceptionController {
 	private String msg = "Message";
 	
 	@ExceptionHandler(CartPersistingException.class)
-	public ResponseEntity<Map<String, Object>> productServicePersistingExceptionHandler(Throwable t, Exception e){
-		Map<String, Object> response = new HashMap<>();
-		response.put(err, true);
-		response.put(msg, e.getLocalizedMessage());
-		return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<String> productServicePersistingExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(CartFetchingException.class)
-	public ResponseEntity<Map<String, Object>> productServiceFetchingExceptionclass(Throwable t, Exception e){
-		Map<String, Object> response = new HashMap<>();
-		response.put(err, true);
-		response.put(msg, e.getLocalizedMessage());
-		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> productServiceFetchingExceptionclass(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(LoyaltyRewardsGlobalAppException.class)
-	public ResponseEntity<Map<String, Object>> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
-		Map<String, Object> response = new HashMap<>();
-		response.put(err, true);
-		response.put(msg, e.getLocalizedMessage());
-		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	public ResponseEntity<String> loyaltyRewardsGlobalAppExceptionHandler(Throwable t, Exception e){
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(ProductProxyException.class)

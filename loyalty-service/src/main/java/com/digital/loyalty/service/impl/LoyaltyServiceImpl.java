@@ -185,7 +185,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 	public int validateVocherCodeAndFetchDiscountValue(String userId, String vocherCode) throws LoyaltyRewardsGlobalAppException {
 		LoyaltyMember loyaltyMember =  loyaltyDao.validateVocherCode(userId);
 		for (EngagementDetail vocher : loyaltyMember.getEngagementDetail()) {
-			if(vocher.getVoucherCode().equals(vocherCode) && vocher.getVoucherValidity().isAfter(LocalDate.now())) {	
+			if((!vocher.getVoucherCode().equals(vocherCode)) && vocher.getVoucherValidity().isAfter(LocalDate.now())) {	
 				if(vocher.isApplied()) {
 					throw new VocherAlreadyUtilizedException("Vocher has been already used...try with diffrent vocher..!");
 				}
@@ -243,6 +243,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		public void updateUserLoyaltyPoints(VoucherUserDto voucherUserDto) {
 			Optional<LoyaltyMember> loyaltyMember = loyaltyDao.fetchExistingMembers(voucherUserDto.getUserId());
 			loyaltyMember.get().setLoyaltyPoints(loyaltyMember.get().getLoyaltyPoints() - voucherUserDto.getUtilizedLoyaltyPoints());
+			System.err.println(loyaltyMember.get().getLoyaltyPoints());
 			loyaltyDao.persistMember(updateTier(loyaltyMember).get());
 		}
 
@@ -261,7 +262,7 @@ public class LoyaltyServiceImpl implements ILoyaltyService{
 		double totalRewardPoints = (rewardsPercent * order.getOrderAmount())/100;
 		loyaltyMember.get().setLoyaltyPoints(loyaltyMember.get().getLoyaltyPoints() + totalRewardPoints);
 		loyaltyDao.persistMember(updateTier(loyaltyMember).get());
-	}
+	} 
 	
 	//in Tier 1  0-499 500-999 1000-3499 3500-0  4600-2000 = 2600
 	public Optional<LoyaltyMember> updateTier(Optional<LoyaltyMember> loyaltyMember) {
